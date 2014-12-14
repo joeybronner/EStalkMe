@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<school name="ESGi">
+<promo name="Architecture des Logiciels 2">
+<students>
+<student>
+<name>Joey</name>
+</student>
+<student>
+<name>Mathieu</name>
+</student>
+<student>
+<name>Thomas</name>
+</student>
+</students>
+</promo>
+<promo name="Ingénérie des Applications Mobiles">
+<students>
+<student>
+<name>Matthieu</name>
+</student>
+<student>
+<name>Antonin</name>
+</student>
+<student>
+<name>Clément</name>
+</student>
+</students>
+</promo>
+</school>
