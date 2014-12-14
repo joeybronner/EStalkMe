@@ -57,8 +57,12 @@ public class GoogleResults {
 			GoogleResults results = new Gson().fromJson(reader, GoogleResults.class);
 
 			for (int j=0; j<4; j++){
-				result.add(results.getResponseData().getResults().get(j).getUrl());
-				// results.getResponseData().getResults().get(i).getTitle();
+				try {
+					result.add(results.getResponseData().getResults().get(j).getUrl());
+					// results.getResponseData().getResults().get(i).getTitle();
+				} catch (Exception e) {
+					continue;
+				}
 			}
 		}
 		return result;

@@ -3,8 +3,13 @@ package com.estalkme.gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.List;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,6 +21,8 @@ import com.estalkme.google.api.GoogleResults;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.JList;
+import javax.swing.JScrollBar;
+import java.awt.SystemColor;
 
 public class GUISearch extends JFrame {
 
@@ -30,20 +37,20 @@ public class GUISearch extends JFrame {
 			init(this);
 			fillList(firstName, lastName);
 		} catch (Exception e) {
-			System.out.println("Erreur lors de la recherche... <com.estalkme.gui.GUISearch.java>");
+			System.out.println("Erreur lors de la recherche... <com.estalkme.gui.GUISearch.java>\n" + e);
 		}
 	}
 
 	@SuppressWarnings("deprecation")
-	private static void fillList(String firstName, String lastName) throws Exception {
+	private void fillList(String firstName, String lastName) throws Exception {
 		java.util.List<String> googleSearchResults = GoogleResults.readAsList(firstName, lastName);
 		// JList
 		list.setListData(googleSearchResults.toArray());
 	}
 
-	private static void init(JFrame f) {
+	private void init(JFrame f) throws Exception {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setBounds(100, 100, 450, 300);
+		f.setBounds(100, 100, 450, 450);
 		window = new JPanel();
 		window.setBorder(new EmptyBorder(5, 5, 5, 5));
 		window.setLayout(new BorderLayout(0, 0));
@@ -60,14 +67,37 @@ public class GUISearch extends JFrame {
 		window.add(panelFooter, BorderLayout.SOUTH);
 
 		JButton btnSuivant = new JButton("Suivant");
+		btnSuivant.setBackground(SystemColor.controlHighlight);
 		panelFooter.add(btnSuivant);
 
 		JPanel panel = new JPanel();
 		window.add(panel, BorderLayout.EAST);
-		panel.setLayout(new MigLayout("", "[158px]", "[14px]"));
+		panel.setLayout(new MigLayout("", "[158px]", "[14px][][][]"));
 
-		JLabel lblAjouterCeLien = new JLabel("Ajouter ce lien aux liens valid\u00E9s ?");
+		JLabel lblAjouterCeLien = new JLabel("Ajouter ce lien aux liens valides ?");
 		panel.add(lblAjouterCeLien, "cell 0 0,alignx left,aligny top");
+		
+		JButton btnSeFier = new JButton();
+		btnSeFier.setBackground(SystemColor.controlHighlight);
+		btnSeFier.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// Action
+			}
+		});
+		btnSeFier.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/good.PNG"))));
+		panel.add(btnSeFier, "cell 0 2,alignx center");
+		
+		JButton btnNePasSe = new JButton();
+		btnNePasSe.setBackground(SystemColor.controlHighlight);
+		btnNePasSe.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// Action
+			}
+		});
+		btnNePasSe.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/bad.PNG"))));
+		panel.add(btnNePasSe, "cell 0 3,alignx center");
 	}
 
 }

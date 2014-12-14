@@ -19,6 +19,7 @@ import com.estalkme.gui.GUISearch;
 import com.estalkme.tools.Constants;
 import com.estalkme.tools.TextPrompt;
 import com.estalkme.tools.ValidateFields;
+import com.estalkme.xmltools.XMLUtils;
 
 /**
  * <p>
@@ -56,7 +57,7 @@ public class windowTools {
 		body.add(img);
 
 		// Field First Name
-		final JTextField fieldFirstName = new JTextField();
+		final JTextField fieldFirstName = new JTextField("Joey");
 		TextPrompt tpTFFirstName;
 		tpTFFirstName = new TextPrompt("Barack", fieldFirstName);
 		tpTFFirstName.setForeground(Color.GRAY);
@@ -68,7 +69,7 @@ public class windowTools {
 		body.add(fieldFirstName); 
 		
 		// Field Last Name
-		final JTextField fieldLastName = new JTextField();
+		final JTextField fieldLastName = new JTextField("Bronner");
 		TextPrompt tpTFLastName;
 		tpTFLastName = new TextPrompt("OBAMA", fieldLastName);
 		tpTFLastName.setForeground(Color.GRAY);
@@ -94,8 +95,11 @@ public class windowTools {
 					if (ValidateFields.isValidName(firstName, lastName)) {
 						System.out.println(firstName + " " + lastName + " est valide.");
 						
-						GUISearch search = new GUISearch("EStalkMe - Home", Constants.dimFrame, firstName, lastName);
-						// search.pack();
+						// XML Creation
+						// TODO: Check if an XML file for this first and last name has already been created.
+						XMLUtils.createNewXMLDocument(firstName, lastName);
+						
+						GUISearch search = new GUISearch("EStalkMe - Search", Constants.dimFrame, firstName, lastName);
 						search.setLocationRelativeTo(null); // center
 						search.setVisible(true);
 						
