@@ -43,19 +43,23 @@ public class GoogleResults {
 		String charset = "UTF-8";
 		List<String> result = new ArrayList<String>();
 
-		// Send URL
-		URL url = new URL(Constants.GoogleSearchAdr + URLEncoder.encode(query, charset));
-		Reader reader = new InputStreamReader(url.openStream(), charset);
-		GoogleResults results = new Gson().fromJson(reader, GoogleResults.class);
+		Constants.searchSteps.add(4);
+		Constants.searchSteps.add(8);
+		Constants.searchSteps.add(12);
+		Constants.searchSteps.add(16);
+		
+		for (int i=0; i<Constants.searchSteps.size();i++) {
+			// Send URL
+			URL url = new URL(Constants.GoogleSearchAdr + Constants.searchSteps.get(i) + Constants.GoogleSearchAdr2 +
+					URLEncoder.encode(query, charset));
+			System.out.println(url.toString());
+			Reader reader = new InputStreamReader(url.openStream(), charset);
+			GoogleResults results = new Gson().fromJson(reader, GoogleResults.class);
 
-		// Total URL link found
-		int total = results.getResponseData().getResults().size();
-		System.out.println("Number of URL found : " + total);
-
-		// Show title and URL of each results
-		for(int i=0; i<=total-1; i++){
-			result.add(results.getResponseData().getResults().get(i).getUrl());
-			// results.getResponseData().getResults().get(i).getTitle();
+			for (int j=0; j<4; j++){
+				result.add(results.getResponseData().getResults().get(j).getUrl());
+				// results.getResponseData().getResults().get(i).getTitle();
+			}
 		}
 		return result;
 	}

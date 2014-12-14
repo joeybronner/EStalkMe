@@ -3,22 +3,19 @@ package com.estalkme.gui.dev;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import com.estalkme.google.api.GoogleResults;
+import com.estalkme.gui.GUISearch;
 import com.estalkme.tools.Constants;
 import com.estalkme.tools.TextPrompt;
 import com.estalkme.tools.ValidateFields;
@@ -96,10 +93,11 @@ public class windowTools {
 					String lastName = fieldLastName.getText().trim();
 					if (ValidateFields.isValidName(firstName, lastName)) {
 						System.out.println(firstName + " " + lastName + " est valide.");
-						JFrame windowHome = createHomeWindow("EStalkMe - Home", Constants.dimFrame, firstName, lastName);
-						windowHome.pack();
-						windowHome.setLocationRelativeTo(null); // center
-						windowHome.setVisible(true);
+						
+						GUISearch search = new GUISearch("EStalkMe - Home", Constants.dimFrame, firstName, lastName);
+						// search.pack();
+						search.setLocationRelativeTo(null); // center
+						search.setVisible(true);
 						
 						// Close Start Window
 						window.setVisible(false); 
@@ -134,6 +132,7 @@ public class windowTools {
 	 * @param size	Window size
 	 * @return JFrame
 	 */
+	/*
 	protected static JFrame createHomeWindow(String title, Dimension size, 
 			String firstName, String lastName)throws Exception {
 		
@@ -157,6 +156,6 @@ public class windowTools {
 		window.getContentPane().add(body, BorderLayout.CENTER);
 
 		return window;
-	}
+	}*/
 	
 }

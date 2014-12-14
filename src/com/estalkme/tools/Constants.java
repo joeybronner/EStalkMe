@@ -2,6 +2,8 @@ package com.estalkme.tools;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
@@ -33,5 +35,7 @@ public class Constants
 	public static String urlImageAppWelcome = "WebContent/img/im_profile.png";
 	
 	// Google Search API
-	public static String GoogleSearchAdr = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=";
+	public static String GoogleSearchAdr = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&start=";
+	public static List<Integer> searchSteps = new ArrayList<Integer>();
+	public static String GoogleSearchAdr2 = "&q=";
 }
