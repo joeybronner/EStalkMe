@@ -21,6 +21,7 @@ import org.w3c.dom.Node;
 
 public class XMLUtils {
 
+	protected static final String SAVE_PATH = "src/com/estalkme/xmlresults/"; 
 	private static final String[] STUDENTSAL2 = {"Joey", "Mathieu", "Thomas"};
 	private static final String[] STUDENTSIAM = {"Matthieu", "Antonin", "Clément"};
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -88,7 +89,7 @@ public class XMLUtils {
 			DOMSource source = new DOMSource(doc);
 
 			// Output to file
-			String name = "src/com/estalkme/xmlresults/" + firstName + lastName + ".xml";
+			String name = SAVE_PATH + buildFileName(firstName, lastName);
 			result = new StreamResult(new File(name));
 			transformer.transform(source, result);
 
@@ -112,5 +113,18 @@ public class XMLUtils {
 			//Utils.trace("Error: " + tfe.getMessage());
 		}
 		return doc;
+	}
+
+	public static boolean existDocument(String firstName, String lastName) {
+		File f = new File(SAVE_PATH + buildFileName(firstName, lastName));
+		if(f.exists() && !f.isDirectory()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static String buildFileName(String firstName, String lastName) {
+		return "estalkme_result_[" + firstName + lastName + "].xml";
 	}
 }

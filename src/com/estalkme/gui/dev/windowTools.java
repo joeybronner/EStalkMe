@@ -96,8 +96,12 @@ public class windowTools {
 						System.out.println(firstName + " " + lastName + " est valide.");
 						
 						// XML Creation
-						// TODO: Check if an XML file for this first and last name has already been created.
-						XMLUtils.createNewXMLDocument(firstName, lastName);
+						if (XMLUtils.existDocument(firstName, lastName)) {
+							System.out.println("File updated.");
+						} else {
+							XMLUtils.createNewXMLDocument(firstName, lastName);
+							System.out.println("New file created.");
+						}
 						
 						GUISearch search = new GUISearch("EStalkMe - Search", Constants.dimFrame, firstName, lastName);
 						search.setLocationRelativeTo(null); // center
