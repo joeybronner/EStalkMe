@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<person id="000001">
+	<about>
+		<gender>M</gender>
+		<firstname>Prenom</firstname>
+		<lastname>Nom</lastname>
+		<dateofbirth>1990-12-30</dateofbirth>
+		<phonenumber>0601020304</phonenumber>
+		<email>blablabla@gmail.com</email>
+		<email>blablabla@autre.info</email>
+	</about>
+	<friends>
+		<friendId id="000002" />
+		<friendId id="000003" />
+	</friends>
+	<social>
+		<facebook>https://www.facebook.com/lienfacebook</facebook>
+		<linkedin>https://www.linkedin.com/in/prenomnom</linkedin>
+		<twitter>https://twitter.com/nomdutilisateur</twitter>
+	</social>
+	<workexperience>
+		<work>
+			<company>ESGI</company>
+			<position>Etudiant</position>
+			<from date="2014-08-01" />
+			<to date="" />
+			<town>Ville</town>
+		</work>
+	</workexperience>
+	<links>
+		<reputation>
+			<goods>
+				<good link="" />
+				<good link="" />
+			</goods>
+			<bads>
+				<bad link="" />
+				<bad link="" />
+			</bads>
+		</reputation>
+		<approvals>
+			<approved link="" />
+			<approved link="" />
+		</approvals>
+		<disapprovals>
+			<disapproved link="" />
+			<disapproved link="" />
+		</disapprovals>
+	</links>
+</person>

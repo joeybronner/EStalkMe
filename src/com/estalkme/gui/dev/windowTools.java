@@ -97,6 +97,7 @@ public class windowTools {
 						
 						// XML Creation
 						if (XMLUtils.existDocument(firstName, lastName)) {
+							XMLUtils.updateXMLDocument(firstName, lastName);
 							System.out.println("File updated.");
 						} else {
 							XMLUtils.createNewXMLDocument(firstName, lastName);

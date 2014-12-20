@@ -2,7 +2,7 @@
 <person id="000001">
 	<about>
 		<gender>M</gender>
-		<firstname>Prénom</firstname>
+		<firstname>Prenom</firstname>
 		<lastname>Nom</lastname>
 		<dateofbirth>1990-12-30</dateofbirth>
 		<phonenumber>0601020304</phonenumber>

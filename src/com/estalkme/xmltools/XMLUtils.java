@@ -34,54 +34,62 @@ public class XMLUtils {
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 			doc = docBuilder.newDocument();
 
-			// Creates root tag 'ecole'
-			Element school = doc.createElement("school");
-			school.setAttribute("name", "ESGi");
-			doc.appendChild(school);
+			// Create STRUCTURE
+			Element person = doc.createElement("person");
+			person.setAttribute("id", firstName+lastName);
+			doc.appendChild(person);
 
-			// Creates new students for AL2
-			Element promoAL2 = doc.createElement("promo");
-			Node studentsAL2 = doc.createElement("students");
-			for (int i = 0; i < STUDENTSAL2.length; i++) {
-				// Creates child element 'promo'
-				promoAL2.setAttribute("name", "Architecture des Logiciels 2");
-				school.appendChild(promoAL2);
-
-				// Creates 3 new nodes
-				Node student = doc.createElement("student");
-				Element lastname = doc.createElement("name");
-				lastname.appendChild(doc.createTextNode(STUDENTSAL2[i].toString()));
-
-				// Adds student personal informations to student element
-				student.appendChild(lastname);
-				studentsAL2.appendChild(student);
-
-			}
-			promoAL2.appendChild(studentsAL2);
-
-			// Creates new students for IAM
-			Element promo = doc.createElement("promo");
-			Node studentsIAM = doc.createElement("students");
-			for (int i = 0; i < STUDENTSIAM.length; i++) {
-				// Creates child element 'promo'
-				promo.setAttribute("name", "Ingénérie des Applications Mobiles");
-				school.appendChild(promo);
-
-				// Creates 3 new nodes
-				Node student = doc.createElement("student");
-				Element lastname = doc.createElement("name");
-				lastname.appendChild(doc.createTextNode(STUDENTSIAM[i].toString()));
-
-				// Adds student personal informations to student element
-				student.appendChild(lastname);
-				studentsIAM.appendChild(student);
-
-			}
-			promo.appendChild(studentsIAM);
+			// ABOUT node
+			Element about = doc.createElement("about");
+			person.appendChild(about);
+				// Childs
+				Node gender = doc.createElement("gender");
+				about.appendChild(gender);
+				Node firstname = doc.createElement("firstname");
+				firstname.appendChild(doc.createTextNode(firstName));
+				about.appendChild(firstname);
+				Node lastname = doc.createElement("lastname");
+				lastname.appendChild(doc.createTextNode(lastName));
+				about.appendChild(lastname);
+				Node dateofbirth = doc.createElement("dateofbirth");
+				about.appendChild(dateofbirth);
+			
+			// FRIENDS node
+			Element friends = doc.createElement("friends");
+			person.appendChild(friends);
+			
+			// SOCIAL node
+			Element social = doc.createElement("social");
+			person.appendChild(social);
+			
+			// WORKEXPERIENCE node
+			Element workexperience = doc.createElement("workexperience");
+			person.appendChild(workexperience);
+			
+			// LINKS node
+			Element links = doc.createElement("links");
+			person.appendChild(links);
+				// Reputation
+				Node reputation = doc.createElement("reputation");
+				links.appendChild(reputation);
+					// Goods
+					Node goods = doc.createElement("goods");
+					reputation.appendChild(goods);
+					// Bads
+					Node bads = doc.createElement("bads");
+					reputation.appendChild(bads);
+				// Approvals
+				Node approvals = doc.createElement("approvals");
+				links.appendChild(approvals);
+				// Disapprovals
+				Node disapprovals = doc.createElement("disapprovals");
+				links.appendChild(disapprovals);
 
 			// Indent & Doctype declaration
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			//transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "School - YYYY-MM-DD HH.MM.SS.dtd");
 
 			// Prepares to write
@@ -114,6 +122,10 @@ public class XMLUtils {
 		}
 		return doc;
 	}
+	
+	public static void updateXMLDocument(String firstName, String lastName) {
+		
+	}
 
 	public static boolean existDocument(String firstName, String lastName) {
 		File f = new File(SAVE_PATH + buildFileName(firstName, lastName));
@@ -122,6 +134,10 @@ public class XMLUtils {
 		} else {
 			return false;
 		}
+	}
+	
+	public static File getXMLFile(String firstName, String lastName) {
+		return new File(SAVE_PATH + buildFileName(firstName, lastName));
 	}
 	
 	public static String buildFileName(String firstName, String lastName) {
