@@ -98,11 +98,12 @@ public class windowTools {
 						// XML Creation
 						if (XMLUtils.existDocument(firstName, lastName)) {
 							XMLUtils.updateXMLDocument(firstName, lastName);
-							System.out.println("File updated.");
 						} else {
 							XMLUtils.createNewXMLDocument(firstName, lastName);
-							System.out.println("New file created.");
 						}
+						
+						Constants.firstName = firstName;
+						Constants.lastName = lastName;
 						
 						GUISearch search = new GUISearch("EStalkMe - Search", Constants.dimFrame, firstName, lastName);
 						search.setLocationRelativeTo(null); // center

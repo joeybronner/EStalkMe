@@ -8,6 +8,8 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 
+import org.w3c.dom.Document;
+
 public class Constants
 {
 	//Styling
@@ -38,4 +40,8 @@ public class Constants
 	public static String GoogleSearchAdr = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&start=";
 	public static List<Integer> searchSteps = new ArrayList<Integer>();
 	public static String GoogleSearchAdr2 = "&q=";
+	
+	// First & Last Name
+	public static String firstName;
+	public static String lastName;
 }

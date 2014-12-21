@@ -11,8 +11,12 @@
     <workexperience/>
     <links>
        	<reputation>
-            <goods/>
-            <bads/>
+            <goods>
+                <good>http://www.watertowndailytimes.com/wdt_repository/advertising_files/tabs/MTGWinterSports2014.pdf</good>
+            </goods>
+            <bads>
+                <bad>https://www.pinterest.com/JoeyLarge/hair-dressing-shine-pomades/</bad>
+            </bads>
         </reputation>
         <approvals/>
         <disapprovals/>

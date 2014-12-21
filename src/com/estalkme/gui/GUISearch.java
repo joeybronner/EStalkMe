@@ -17,11 +17,14 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.estalkme.google.api.GoogleResults;
+import com.estalkme.tools.Constants;
+import com.estalkme.xmltools.XMLUtils;
 
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.JList;
 import javax.swing.JScrollBar;
+
 import java.awt.SystemColor;
 
 public class GUISearch extends JFrame {
@@ -82,7 +85,12 @@ public class GUISearch extends JFrame {
 		btnSeFier.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// Action
+				String link = (String) list.getSelectedValue();
+				if (link != null && !link.equals("")) {
+					XMLUtils.addLink(XMLUtils.getXMLFile(Constants.firstName, Constants.lastName), "good", link);
+				} else {
+					System.out.println("You must select a link if the list.");
+				}
 			}
 		});
 		btnSeFier.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/good.PNG"))));
@@ -93,7 +101,12 @@ public class GUISearch extends JFrame {
 		btnNePasSe.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// Action
+				String link = (String) list.getSelectedValue();
+				if (link != null && !link.equals("")) {
+					XMLUtils.addLink(XMLUtils.getXMLFile(Constants.firstName, Constants.lastName), "bad", link);
+				} else {
+					System.out.println("You must select a link if the list.");
+				}
 			}
 		});
 		btnNePasSe.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/bad.PNG"))));
