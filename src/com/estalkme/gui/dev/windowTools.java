@@ -49,7 +49,6 @@ public class windowTools {
 
 		// Body
 		JPanel body = new JPanel();
-		body.setBorder(Constants.blackline);
 
 		// App welcome picture
 		JLabel img = new JLabel(new ImageIcon(Constants.urlImageAppWelcome), SwingConstants.LEFT);

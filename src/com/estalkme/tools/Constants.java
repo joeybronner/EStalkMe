@@ -8,8 +8,6 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 
-import org.w3c.dom.Document;
-
 public class Constants
 {
 	//Styling
@@ -44,4 +42,7 @@ public class Constants
 	// First & Last Name
 	public static String firstName;
 	public static String lastName;
+	
+	// Refresh (no connection)
+	public static boolean refresh = false;
 }
