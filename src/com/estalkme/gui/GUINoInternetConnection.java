@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,8 +16,11 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+
 import javax.swing.ImageIcon;
+
 import java.awt.SystemColor;
+import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class GUINoInternetConnection extends JFrame {
@@ -25,13 +29,18 @@ public class GUINoInternetConnection extends JFrame {
 	private static JPanel window;
 	
 	public GUINoInternetConnection(JFrame search, String firstName, String lastName) {
-		setAlwaysOnTop(true);
-		init(this, search);
+		try {
+			setAlwaysOnTop(true);
+			init(this, search);	
+		} catch (Exception e) {
+			System.out.println("Erreur... <com.estalkme.gui.GUINoInternetConnection.java>\n" + e);
+		}
+		
 	}
 
-	private void init(JFrame f, JFrame search) {
+	private void init(JFrame f, JFrame search) throws IOException {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setBounds(100, 100, 350, 180);
+		f.setBounds(100, 100, 350, 160);
 		
 		window = new JPanel();
 		window.setBackground(Color.WHITE);
@@ -74,7 +83,7 @@ public class GUINoInternetConnection extends JFrame {
 		});
 		
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon("C:\\Users\\Joey\\Documents\\workspace-javaee\\EStalkMe\\src\\com\\estalkme\\gui\\img\\connexion.png"));
+		label.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/connection.PNG"))));
 		window.add(label, "6, 4, center, default");
 		window.add(btnReessayer, "6, 6, center, default");
 	}

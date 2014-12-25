@@ -60,6 +60,7 @@ public class GUISearch extends JFrame {
 		try {
 			// Get results from Google
 			googleSearchResults = GoogleResults.readAsList(firstName, lastName);
+			list.setBackground(SystemColor.controlHighlight);
 			// Fill JList
 			list.setListData(googleSearchResults.toArray());
 		} catch (Exception e) {
@@ -97,7 +98,7 @@ public class GUISearch extends JFrame {
 				GUIResults results = new GUIResults("EStalkMe - Results");
 				results.setLocationRelativeTo(null); // center
 				results.setVisible(true);
-				
+
 				// Close Start Window
 				setVisible(false); 
 				dispose();
@@ -111,25 +112,6 @@ public class GUISearch extends JFrame {
 		window.add(panel, BorderLayout.EAST);
 		panel.setLayout(new MigLayout("", "[158px]", "[14px][][][][][]"));
 
-		JLabel lblAjouterCeLien = new JLabel("Ajouter ce lien aux liens valides ?");
-		panel.add(lblAjouterCeLien, "cell 0 0,alignx left,aligny top");
-		
-		JButton btnSeFier = new JButton();
-		btnSeFier.setBackground(SystemColor.controlHighlight);
-		btnSeFier.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				String link = (String) list.getSelectedValue();
-				if (link != null && !link.equals("")) {
-					XMLUtils.addLink(XMLUtils.getXMLFile(Constants.firstName, Constants.lastName), "good", link);
-				} else {
-					System.out.println("You must select a link if the list.");
-				}
-			}
-		});
-		btnSeFier.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/good.PNG"))));
-		panel.add(btnSeFier, "cell 0 2,alignx center");
-		
 		JButton btnNePasSe = new JButton();
 		btnNePasSe.setBackground(SystemColor.controlHighlight);
 		btnNePasSe.addMouseListener(new MouseAdapter() {
@@ -143,8 +125,31 @@ public class GUISearch extends JFrame {
 				}
 			}
 		});
+
+		JButton btnSeFier = new JButton();
+		btnSeFier.setBackground(SystemColor.controlHighlight);
+		btnSeFier.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				String link = (String) list.getSelectedValue();
+				if (link != null && !link.equals("")) {
+					XMLUtils.addLink(XMLUtils.getXMLFile(Constants.firstName, Constants.lastName), "good", link);
+				} else {
+					System.out.println("You must select a link if the list.");
+				}
+			}
+		});
+
+		JLabel imgGoogle = new JLabel("");
+		imgGoogle.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/google_logo.PNG"))));
+		panel.add(imgGoogle, "cell 0 1,alignx center");
+
+		JLabel lblAjouterCeLien = new JLabel("Ajouter ce lien aux liens valides ?");
+		panel.add(lblAjouterCeLien, "cell 0 3,alignx left,aligny top");
+		btnSeFier.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/good.PNG"))));
+		panel.add(btnSeFier, "cell 0 4,alignx center");
 		btnNePasSe.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/bad.PNG"))));
-		panel.add(btnNePasSe, "cell 0 3,alignx center");
+		panel.add(btnNePasSe, "cell 0 5,alignx center");
 	}
 
 }

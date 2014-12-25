@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -54,12 +55,14 @@ public class windowTools {
 		JLabel img = new JLabel(new ImageIcon(Constants.urlImageAppWelcome), SwingConstants.LEFT);
 		img.setAlignmentX(Component.CENTER_ALIGNMENT);
 		body.add(img);
+		body.setBackground(Color.WHITE);
 
 		// Field First Name
 		final JTextField fieldFirstName = new JTextField("Joey");
+		fieldFirstName.setBackground(SystemColor.controlHighlight);
 		TextPrompt tpTFFirstName;
 		tpTFFirstName = new TextPrompt("Barack", fieldFirstName);
-		tpTFFirstName.setForeground(Color.GRAY);
+		tpTFFirstName.setForeground(Color.DARK_GRAY);
 		tpTFFirstName.changeAlpha(0.5f);
 		tpTFFirstName.changeStyle(Font.ITALIC);
 		fieldFirstName.setPreferredSize(Constants.dimTextField);
@@ -69,9 +72,10 @@ public class windowTools {
 		
 		// Field Last Name
 		final JTextField fieldLastName = new JTextField("Bronner");
+		fieldLastName.setBackground(SystemColor.controlHighlight);
 		TextPrompt tpTFLastName;
 		tpTFLastName = new TextPrompt("OBAMA", fieldLastName);
-		tpTFLastName.setForeground(Color.GRAY);
+		tpTFLastName.setForeground(Color.DARK_GRAY);
 		tpTFLastName.changeAlpha(0.5f);
 		tpTFLastName.changeStyle(Font.ITALIC);
 		fieldLastName.setPreferredSize(Constants.dimTextField);
