@@ -49,10 +49,16 @@ public class GUISearch extends JFrame {
 		setBackground(Color.WHITE);
 		try {
 			init(this);
+			initConstants(firstName, lastName);
 			fillList(firstName, lastName);
 		} catch (Exception e) {
 			System.out.println("Erreur lors de la recherche... <com.estalkme.gui.GUISearch.java>\n" + e);
 		}
+	}
+	
+	public void initConstants(String firstName, String lastName) {
+		Constants.fileName = XMLUtils.buildFileName(firstName, lastName);
+		Constants.filePath = Constants.SAVE_PATH + Constants.fileName;
 	}
 
 	@SuppressWarnings("unchecked")

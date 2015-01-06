@@ -8,6 +8,8 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 
+import com.estalkme.xmltools.XMLUtils;
+
 public class Constants
 {
 	//Styling
@@ -42,6 +44,11 @@ public class Constants
 	// First & Last Name
 	public static String firstName;
 	public static String lastName;
+	
+	// File
+	public static String fileName;
+	public static String SAVE_PATH = "src/com/estalkme/xmlresults/";
+	public static String filePath;
 	
 	// Refresh (no connection)
 	public static boolean refresh = false;

@@ -24,9 +24,10 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
+import com.estalkme.tools.Constants;
+
 public class XMLUtils {
 
-	protected static final String SAVE_PATH = "src/com/estalkme/xmlresults/";
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 	public static Document createNewXMLDocument(String firstName, String lastName) {
@@ -89,7 +90,7 @@ public class XMLUtils {
 			links.appendChild(disapprovals);
 
 			// Save file
-			saveXMLDocumentAsFile(doc, new File(SAVE_PATH + buildFileName(firstName, lastName)));
+			saveXMLDocumentAsFile(doc, new File(Constants.SAVE_PATH + buildFileName(firstName, lastName)));
 
 			/*
 			Utils.trace("File saved (" + name + ")");
@@ -150,7 +151,7 @@ public class XMLUtils {
 	}
 
 	public static boolean existDocument(String firstName, String lastName) {
-		File f = new File(SAVE_PATH + buildFileName(firstName, lastName));
+		File f = new File(Constants.SAVE_PATH + buildFileName(firstName, lastName));
 		if(f.exists() && !f.isDirectory()) {
 			return true;
 		} else {
@@ -159,7 +160,7 @@ public class XMLUtils {
 	}
 
 	public static File getXMLFile(String firstName, String lastName) {
-		return new File(SAVE_PATH + buildFileName(firstName, lastName));
+		return new File(Constants.SAVE_PATH + buildFileName(firstName, lastName));
 	}
 
 	public static String buildFileName(String firstName, String lastName) {
