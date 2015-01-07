@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<person id="BarackObama">
+    <about>
+        <gender/>
+        <firstname>Barack</firstname>
+        <lastname>Obama</lastname>
+        <dateofbirth/>
+    </about>
+    <friends/>
+    <social/>
+    <workexperience/>
+    <links>
+        <reputation>
+            <goods>
+                <good>https://www.facebook.com/barackobama</good>
+            </goods>
+            <bads/>
+        </reputation>
+        <approvals/>
+        <disapprovals/>
+    </links>
+</person>
