@@ -206,9 +206,10 @@ public class GUIResults extends JFrame {
 
 		SimpleGraphView sgv = new SimpleGraphView();
 		// The Layout<V, E> is parameterized by the vertex and edge types
-		Layout<Integer, String> layout = new CircleLayout(sgv.g);
+		Layout<String, String> layout = new CircleLayout(sgv.g);
 		// The BasicVisualizationServer<V,E> is parameterized by the edge types
-		VisualizationViewer<Integer,String> vv = new VisualizationViewer<Integer,String>(layout);
+		//VisualizationViewer<Integer,String> vv = new VisualizationViewer<Integer,String>(layout);
+		VisualizationViewer<String, String> vv = new VisualizationViewer<String, String>(layout);
 		//FlowLayout flowLayout = (FlowLayout) vv.getLayout();
 		vv.setBackground(Color.WHITE);
 		//vv.setPreferredSize(new Dimension(350,350)); //Sets the viewing area size
@@ -230,7 +231,6 @@ public class GUIResults extends JFrame {
 		};
 
 
-		vv.getRenderContext().setVertexFillPaintTransformer(vertexPaint);
 		vv.getRenderContext().setEdgeStrokeTransformer(edgeStrokeTransformer);
 		vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 		vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
