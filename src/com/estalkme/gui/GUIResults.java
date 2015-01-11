@@ -8,12 +8,16 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Paint;
+import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -39,11 +43,13 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
+import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
-import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
-import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import edu.uci.ics.jung.visualization.renderers.Renderer;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
+import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
+import java.awt.SystemColor;
 
 public class GUIResults extends JFrame {
 
@@ -114,6 +120,14 @@ public class GUIResults extends JFrame {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 
 		JLabel lblCarteDidentitNumrique = new JLabel("Carte d'identit\u00E9 num\u00E9rique");
@@ -136,6 +150,48 @@ public class GUIResults extends JFrame {
 		separator.setForeground(Color.BLACK);
 		left.add(separator, "2, 10");
 
+		JButton imgFacebook = new JButton("");
+		imgFacebook.setBackground(SystemColor.controlHighlight);
+		imgFacebook.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// Open GUISocialLink
+				GUISocialLink results = new GUISocialLink("facebook");
+				results.setLocationRelativeTo(null); // center
+				results.setVisible(true);
+			}
+		});
+		imgFacebook.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/facebook.png"))));
+		left.add(imgFacebook, "2, 12, center, default");
+
+		JButton imgTwitter = new JButton("");
+		imgTwitter.setBackground(SystemColor.controlHighlight);
+		imgTwitter.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// Open GUISocialLink
+				GUISocialLink results = new GUISocialLink("twitter");
+				results.setLocationRelativeTo(null); // center
+				results.setVisible(true);
+			}
+		});
+		imgTwitter.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/twitter.png"))));
+		left.add(imgTwitter, "2, 14, center, default");
+
+		JButton imgLinkedin = new JButton("");
+		imgLinkedin.setBackground(SystemColor.controlHighlight);
+		imgLinkedin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// Open GUISocialLink
+				GUISocialLink results = new GUISocialLink("linkedin");
+				results.setLocationRelativeTo(null); // center
+				results.setVisible(true);
+			}
+		});
+		imgLinkedin.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/linkedin.png"))));
+		left.add(imgLinkedin, "2, 16, center, default");
+
 		JPanel header = new JPanel();
 		header.setBackground(Color.WHITE);
 		header.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
@@ -146,7 +202,7 @@ public class GUIResults extends JFrame {
 		gbl_header.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_header.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		header.setLayout(gbl_header);
-		
+
 		JLabel lblLogoApp = new JLabel("");
 		lblLogoApp.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/estalkme_logo128.png"))));
 		GridBagConstraints gbc_lblLogoApp = new GridBagConstraints();
@@ -213,14 +269,14 @@ public class GUIResults extends JFrame {
 		//FlowLayout flowLayout = (FlowLayout) vv.getLayout();
 		vv.setBackground(Color.WHITE);
 		//vv.setPreferredSize(new Dimension(350,350)); //Sets the viewing area size
-		vv.setBorder(Constants.blackline);
+		//vv.setBorder(Constants.blackline);
 
 		Transformer<Integer,Paint> vertexPaint = new Transformer<Integer,Paint>() {
 			public Paint transform(Integer i) {
 				return Color.GRAY;
 			}
 		};
-		
+
 		float dash[] = {10.0f};
 		final Stroke edgeStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f);
 
@@ -230,20 +286,66 @@ public class GUIResults extends JFrame {
 			}
 		};
 
+		vv.getRenderContext().setVertexLabelTransformer(new Transformer<String, String>() {
+			@Override
+			public String transform(String arg0) {
+				return arg0;
+			}
+		});
+		vv.getRenderContext().setEdgeLabelTransformer(new Transformer<String, String>() {
+			@Override
+			public String transform(String arg0) {
+				return arg0;
+			}
+		});
 
+
+		//vv.getRenderContext().setVertexFillPaintTransformer(vertexPaint);
 		vv.getRenderContext().setEdgeStrokeTransformer(edgeStrokeTransformer);
 		vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 		vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
 		vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
-		
+
+
+		// Paint
+		vv.getRenderer().setVertexRenderer(new MyRenderer());
+
 		// Create a graph mouse and add it to the visualization component
-        DefaultModalGraphMouse gm = new DefaultModalGraphMouse();
-        gm.setMode(ModalGraphMouse.Mode.TRANSFORMING);
-        vv.setGraphMouse(gm); 
-        // Add the mouses mode key listener to work it needs to be added to the visualization component
-        vv.addKeyListener(gm.getModeKeyListener());
+		//DefaultModalGraphMouse gm = new DefaultModalGraphMouse();
+		//gm.setMode(ModalGraphMouse.Mode.TRANSFORMING);
+		//vv.setGraphMouse(gm); 
+		// Add the mouses mode key listener to work it needs to be added to the visualization component
+		//vv.addKeyListener(gm.getModeKeyListener());
 
 		body.add(vv, gbc_tree);
+
+	}
+
+	static class MyRenderer implements Renderer.Vertex<String, String> {
+		@Override
+		public void paintVertex(RenderContext<String, String> rc, Layout<String, String> layout, String vertex) {
+			GraphicsDecorator graphicsContext = rc.getGraphicsContext();
+			Point2D center = layout.transform(vertex);
+			Shape shape = null;
+			Color color = null;
+			if(vertex.equals("Square")) {
+				//shape = new Rectangle((int) center.getX() - 10, (int) center.getY() - 10, 20, 20);
+				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 20, 20);
+				color = Constants.RED;
+			} else if(vertex.equals("Rectangle")) {
+				//shape = new Rectangle((int) center.getX() - 10, (int) center.getY() - 20, 20, 40);
+				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 20, 20);
+				color = Constants.GREEN;
+			} else if(vertex.equals("Circle")) {
+				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 20, 20);
+				color = Constants.GRAY;
+			} else {
+				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
+				color = Constants.GRAY;
+			}
+			graphicsContext.setPaint(color);
+			graphicsContext.fill(shape);
+		}
 
 	}
 }

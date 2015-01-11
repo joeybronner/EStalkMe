@@ -28,6 +28,9 @@ public class Constants
 	// Colors
 	public static Color backColor = Color.decode("#DADFE1");
 	public static Color white = Color.decode("#FFFFFF");
+	public static Color GREEN = Color.decode("#27ae60");
+	public static Color RED = Color.decode("#c0392b");
+	public static Color GRAY = Color.decode("#7f8c8d");
 	
 	// Images
 	public static String urlImageConnected = "WebContent/img/ic_www_connection_ok.png";
@@ -44,6 +47,7 @@ public class Constants
 	// First & Last Name
 	public static String firstName;
 	public static String lastName;
+	public static String name;
 	
 	// File
 	public static String fileName;
