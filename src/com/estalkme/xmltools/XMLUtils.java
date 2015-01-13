@@ -16,6 +16,10 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -142,6 +146,40 @@ public class XMLUtils {
 		
 		Node n = nodes.item(0);
 		n.appendChild(linkNode);
+
+		// Print
+		printDocument(doc, System.out);
+
+		// Save
+		saveXMLDocumentAsFile(doc, file);
+	}
+	
+	public static void addSocialLink(File file, String socialmedia, String link) throws XPathExpressionException {
+		Document doc = getXMLFileAsDocument(file);
+		Element linkNode = null;
+
+		// Add new bad or good link
+		if (socialmedia.equals("facebook") || socialmedia.equals("twitter") || socialmedia.equals("linkedin")) {
+			// Node exists ?
+			if (doc.getElementsByTagName(socialmedia).getLength() > 0) {
+			    // Locate the node
+			    XPath xpath = XPathFactory.newInstance().newXPath();
+			    NodeList social = (NodeList)xpath.evaluate("//social/" + socialmedia, doc, XPathConstants.NODESET);
+			    // Make the change
+			    for (int i = 0; i < social.getLength(); i++) {
+			      social.item(i).setTextContent(link);
+			    }
+			} else {
+				// Get parent Node
+				NodeList nodes = doc.getElementsByTagName("social");
+				// New link 
+				linkNode = doc.createElement(socialmedia); 
+				Text linkValue = doc.createTextNode(link);
+				linkNode.appendChild(linkValue);
+				Node n = nodes.item(0);
+				n.appendChild(linkNode);
+			}
+		}
 
 		// Print
 		printDocument(doc, System.out);

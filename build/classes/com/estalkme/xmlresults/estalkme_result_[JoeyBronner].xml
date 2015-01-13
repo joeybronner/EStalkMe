@@ -7,7 +7,9 @@
         <dateofbirth/>
     </about>
     <friends/>
-    <social/>
+    <social>
+        <facebook>monface</facebook>
+    </social>
     <workexperience/>
     <links>
         <reputation>
