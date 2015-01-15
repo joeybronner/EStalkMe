@@ -10,10 +10,12 @@ import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -49,7 +51,6 @@ import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.renderers.Renderer;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
-import java.awt.SystemColor;
 
 public class GUIResults extends JFrame {
 
@@ -60,9 +61,13 @@ public class GUIResults extends JFrame {
 	JLabel lblPrnom;
 	JLabel lblNom;
 	JLabel lblFileLink;
+	List<String> links;
+	
+	// Facebook crawler : https://code.google.com/p/facebook-crawler/source/browse/#svn%2Ftrunk%2FFacebook
 
-	public GUIResults(String title) {
+	public GUIResults(String title, List<String> googleSearchResults) {
 		try {
+			links = googleSearchResults;
 			init(this);
 			loadInfos();
 		} catch (Exception e) {
@@ -78,7 +83,7 @@ public class GUIResults extends JFrame {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void init(JFrame f) throws Exception {
+	private void init(final JFrame f) throws Exception {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 
@@ -89,8 +94,7 @@ public class GUIResults extends JFrame {
 		quit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// Quit
-				//TODO: get the function to exit app.
+				// TODO: Exit app
 			}
 		});
 		fichier.add(quit);
@@ -260,7 +264,7 @@ public class GUIResults extends JFrame {
 
 		// Graph
 
-		SimpleGraphView sgv = new SimpleGraphView();
+		SimpleGraphView sgv = new SimpleGraphView(links);
 		// The Layout<V, E> is parameterized by the vertex and edge types
 		Layout<String, String> layout = new CircleLayout(sgv.g);
 		// The BasicVisualizationServer<V,E> is parameterized by the edge types

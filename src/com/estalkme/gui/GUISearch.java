@@ -101,7 +101,7 @@ public class GUISearch extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// Open GUIResults
-				GUIResults results = new GUIResults("EStalkMe - Results");
+				GUIResults results = new GUIResults("EStalkMe - Results", googleSearchResults);
 				results.setLocationRelativeTo(null); // center
 				results.setVisible(true);
 

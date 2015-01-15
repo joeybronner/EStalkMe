@@ -1,36 +1,28 @@
 package com.estalkme.gui;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import java.awt.GridBagLayout;
-
-import javax.swing.JLabel;
-
-import java.awt.GridBagConstraints;
-import java.io.IOException;
-
-import com.estalkme.tools.Constants;
-import com.estalkme.xmltools.XMLUtils;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
-
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.xml.xpath.XPathExpressionException;
-
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.xml.xpath.XPathExpressionException;
+
+import com.estalkme.tools.Constants;
+import com.estalkme.xmltools.XMLUtils;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
 
 public class GUISocialLink extends JFrame {
 
 	private static final long serialVersionUID = 2606571557996673249L;
-	private static JPanel window;
 	private JTextField textField;
 
 	public GUISocialLink(String type) {

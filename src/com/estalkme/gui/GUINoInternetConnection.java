@@ -1,10 +1,13 @@
 package com.estalkme.gui;
 
 import java.awt.Color;
+import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,15 +20,9 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
-import javax.swing.ImageIcon;
-
-import java.awt.SystemColor;
-import java.io.IOException;
-
 @SuppressWarnings("serial")
 public class GUINoInternetConnection extends JFrame {
 
-	private JFrame frame;
 	private static JPanel window;
 	
 	public GUINoInternetConnection(JFrame search, String firstName, String lastName) {

@@ -8,7 +8,10 @@
 
 package com.estalkme.gui.graph;
 
+import java.util.List;
+
 import com.estalkme.tools.Constants;
+import com.sun.xml.internal.ws.util.StringUtils;
 
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
@@ -21,24 +24,18 @@ public class SimpleGraphView {
 	
     
     /** Creates a new instance of SimpleGraphView */
-    public SimpleGraphView() {
+    public SimpleGraphView(List<String> links) {
     	g = new DirectedSparseGraph<String, String>();
     	
     	Constants.name = Constants.firstName + " " + Constants.lastName;
     	
-    	// TODO: get all links.
-    	
     	// Create stalked name node.
     	g.addVertex(Constants.name);
     	
-        // Add some vertices. From above we defined these to be type Integer.
-        g.addVertex("Square");
-        g.addVertex("Rectangle");
-        g.addVertex("Circle");        
-        
-        // Note that the default is for undirected edges, our Edges are Strings.
-        g.addEdge("Lien1", Constants.name, "Rectangle");
-        g.addEdge("Lien2", Constants.name, "Circle");
-        
+    	// TODO: get all links.
+    	for (int i = 0; i < links.size(); i++) {
+    		g.addVertex(links.get(i));
+    		g.addEdge("Web" + i, Constants.name, links.get(i));
+    	}        
     }
 }
