@@ -43,7 +43,7 @@ public class windowTools {
 	 * @param title Window title
 	 * @return JFrame
 	 */
-	protected static JFrame createStartWindow(String title) throws Exception {
+	public static JFrame createStartWindow(String title) throws Exception {
 		
 		// Window creation
 		final JFrame window = new javax.swing.JFrame(title);

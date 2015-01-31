@@ -11,10 +11,16 @@ import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -25,6 +31,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
@@ -34,8 +41,10 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.collections15.Transformer;
 import org.w3c.dom.Document;
 
+import com.estalkme.gui.dev.windowTools;
 import com.estalkme.gui.graph.SimpleGraphView;
 import com.estalkme.tools.Constants;
+import com.estalkme.xmltools.URLUtils;
 import com.estalkme.xmltools.XMLRetrieveValues;
 import com.estalkme.xmltools.XMLUtils;
 import com.jgoodies.forms.factories.FormFactory;
@@ -47,7 +56,9 @@ import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.GraphMouseListener;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import edu.uci.ics.jung.visualization.picking.PickedState;
 import edu.uci.ics.jung.visualization.renderers.Renderer;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
@@ -62,7 +73,7 @@ public class GUIResults extends JFrame {
 	JLabel lblNom;
 	JLabel lblFileLink;
 	List<String> links;
-	
+
 	// Facebook crawler : https://code.google.com/p/facebook-crawler/source/browse/#svn%2Ftrunk%2FFacebook
 
 	public GUIResults(String title, List<String> googleSearchResults) {
@@ -90,11 +101,29 @@ public class GUIResults extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		JMenu fichier = new JMenu("Fichier");
+		JMenuItem newSearch = new JMenuItem("Nouvelle recherche");
+		newSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					windowTools.createStartWindow("EStalkMe - Start");
+					setVisible(false); 
+					dispose();	
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		fichier.add(newSearch);
 		JMenuItem quit = new JMenuItem("Quitter...");
-		quit.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO: Exit app
+		quit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int confirm = JOptionPane.showOptionDialog(window,
+						"Voulez-vous quitter l'application ?",
+						"Quitter", JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null, null, null);
+				if (confirm == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				}
 			}
 		});
 		fichier.add(quit);
@@ -262,18 +291,13 @@ public class GUIResults extends JFrame {
 		gbc_tree.gridx = 0;
 		gbc_tree.gridy = 0;
 
+		// -------------------------------------------------------------------------
 		// Graph
-
+		// -------------------------------------------------------------------------
 		SimpleGraphView sgv = new SimpleGraphView(links);
-		// The Layout<V, E> is parameterized by the vertex and edge types
 		Layout<String, String> layout = new CircleLayout(sgv.g);
-		// The BasicVisualizationServer<V,E> is parameterized by the edge types
-		//VisualizationViewer<Integer,String> vv = new VisualizationViewer<Integer,String>(layout);
 		VisualizationViewer<String, String> vv = new VisualizationViewer<String, String>(layout);
-		//FlowLayout flowLayout = (FlowLayout) vv.getLayout();
 		vv.setBackground(Color.WHITE);
-		//vv.setPreferredSize(new Dimension(350,350)); //Sets the viewing area size
-		//vv.setBorder(Constants.blackline);
 
 		Transformer<Integer,Paint> vertexPaint = new Transformer<Integer,Paint>() {
 			public Paint transform(Integer i) {
@@ -290,10 +314,39 @@ public class GUIResults extends JFrame {
 			}
 		};
 
+
 		vv.getRenderContext().setVertexLabelTransformer(new Transformer<String, String>() {
 			@Override
 			public String transform(String arg0) {
 				return arg0;
+			}
+		});
+		vv.addGraphMouseListener(new GraphMouseListener() {
+			
+			@Override
+			public void graphClicked(Object v, MouseEvent me) {
+				if (me.getButton() == MouseEvent.BUTTON1 && me.getClickCount() == 1) {
+					try {
+						URLUtils.openWebpage(new URL(v.toString()));
+						System.out.println("Double clicked : "+ v);
+					} catch (MalformedURLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				me.consume();
+			}
+
+			@Override
+			public void graphPressed(Object arg0, MouseEvent arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void graphReleased(Object arg0, MouseEvent arg1) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		vv.getRenderContext().setEdgeLabelTransformer(new Transformer<String, String>() {
@@ -313,6 +366,28 @@ public class GUIResults extends JFrame {
 
 		// Paint
 		vv.getRenderer().setVertexRenderer(new MyRenderer());
+
+		final PickedState<String> pickedState = vv.getPickedVertexState();
+
+		// Attach the listener that will print when the vertices selection changes.
+		pickedState.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				Object subject = e.getItem();
+				// The graph uses Integers for vertices.
+				if (subject instanceof String) {
+					String vertex = (String) subject;
+					if (pickedState.isPicked(vertex)) {
+						System.out.println("Vertex " + vertex
+								+ " is now selected");
+					} else {
+						System.out.println("Vertex " + vertex
+								+ " no longer selected");
+					}
+				}
+			}
+		});
 
 		// Create a graph mouse and add it to the visualization component
 		//DefaultModalGraphMouse gm = new DefaultModalGraphMouse();
