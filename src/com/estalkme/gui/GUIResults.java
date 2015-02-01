@@ -13,8 +13,6 @@ import java.awt.Stroke;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
@@ -40,6 +38,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.collections15.Transformer;
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 import com.estalkme.gui.dev.windowTools;
 import com.estalkme.gui.graph.SimpleGraphView;
@@ -58,7 +57,6 @@ import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.GraphMouseListener;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import edu.uci.ics.jung.visualization.picking.PickedState;
 import edu.uci.ics.jung.visualization.renderers.Renderer;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 import edu.uci.ics.jung.visualization.transform.shape.GraphicsDecorator;
@@ -79,15 +77,21 @@ public class GUIResults extends JFrame {
 	public GUIResults(String title, List<String> googleSearchResults) {
 		try {
 			links = googleSearchResults;
+			loadLinks();
 			init(this);
-			loadInfos();
+			loadFields();
 		} catch (Exception e) {
-			System.out.println("Erreur lors de la recherche... <com.estalkme.gui.GUISearch.java>\n" + e);
+			System.out.println("Erreur lors du chargement de la fenêtre... <com.estalkme.gui.GUIResult.java>\n" + e);
 		}
 	}
 
-	private void loadInfos() throws XPathExpressionException {
+	private void loadLinks() throws Exception {
 		doc = XMLUtils.getXMLFileAsDocument(XMLUtils.getXMLFile(Constants.firstName,Constants.lastName));
+		Constants.goodLinks.clear();
+		Constants.goodLinks = XMLRetrieveValues.getAllGoodLinks(doc);
+	}
+
+	private void loadFields() throws XPathExpressionException {
 		lblPrnom.setText(XMLRetrieveValues.getFirstName(doc));
 		lblNom.setText(XMLRetrieveValues.getLastName(doc));
 		lblFileLink.setText(Constants.fileName);
@@ -322,13 +326,15 @@ public class GUIResults extends JFrame {
 			}
 		});
 		vv.addGraphMouseListener(new GraphMouseListener() {
-			
+
 			@Override
 			public void graphClicked(Object v, MouseEvent me) {
 				if (me.getButton() == MouseEvent.BUTTON1 && me.getClickCount() == 1) {
 					try {
 						URLUtils.openWebpage(new URL(v.toString()));
-						System.out.println("Double clicked : "+ v);
+						GUINodeDetail results = new GUINodeDetail(v.toString());
+						results.setLocationRelativeTo(null); // center
+						results.setVisible(true);
 					} catch (MalformedURLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -340,13 +346,13 @@ public class GUIResults extends JFrame {
 			@Override
 			public void graphPressed(Object arg0, MouseEvent arg1) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void graphReleased(Object arg0, MouseEvent arg1) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		vv.getRenderContext().setEdgeLabelTransformer(new Transformer<String, String>() {
@@ -357,7 +363,6 @@ public class GUIResults extends JFrame {
 		});
 
 
-		//vv.getRenderContext().setVertexFillPaintTransformer(vertexPaint);
 		vv.getRenderContext().setEdgeStrokeTransformer(edgeStrokeTransformer);
 		vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 		vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
@@ -366,28 +371,6 @@ public class GUIResults extends JFrame {
 
 		// Paint
 		vv.getRenderer().setVertexRenderer(new MyRenderer());
-
-		final PickedState<String> pickedState = vv.getPickedVertexState();
-
-		// Attach the listener that will print when the vertices selection changes.
-		pickedState.addItemListener(new ItemListener() {
-
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				Object subject = e.getItem();
-				// The graph uses Integers for vertices.
-				if (subject instanceof String) {
-					String vertex = (String) subject;
-					if (pickedState.isPicked(vertex)) {
-						System.out.println("Vertex " + vertex
-								+ " is now selected");
-					} else {
-						System.out.println("Vertex " + vertex
-								+ " no longer selected");
-					}
-				}
-			}
-		});
 
 		// Create a graph mouse and add it to the visualization component
 		//DefaultModalGraphMouse gm = new DefaultModalGraphMouse();
@@ -407,7 +390,11 @@ public class GUIResults extends JFrame {
 			Point2D center = layout.transform(vertex);
 			Shape shape = null;
 			Color color = null;
-			if(vertex.equals("Square")) {
+
+			if (Constants.goodLinks.contains(vertex.toString())) {
+				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 20, 20);
+				color = Constants.GREEN;
+			} else if(vertex.equals("Square")) {
 				//shape = new Rectangle((int) center.getX() - 10, (int) center.getY() - 10, 20, 20);
 				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 20, 20);
 				color = Constants.RED;

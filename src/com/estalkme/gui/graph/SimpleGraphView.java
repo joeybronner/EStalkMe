@@ -19,9 +19,7 @@ import edu.uci.ics.jung.graph.SparseMultigraph;
 
 public class SimpleGraphView {
 	
-    //public Graph<Integer, String> g;
 	public DirectedSparseGraph<String, String> g;
-	
     
     /** Creates a new instance of SimpleGraphView */
     public SimpleGraphView(List<String> links) {

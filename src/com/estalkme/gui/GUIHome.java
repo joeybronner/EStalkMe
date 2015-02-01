@@ -8,8 +8,7 @@ import com.estalkme.gui.dev.windowTools;
  * 
  */
 public class GUIHome extends windowTools {
-	public static void main(String[] arg) throws Exception
-	{	
+	public static void main(String[] arg) throws Exception {	
 		// Start Window
 		createStartWindow("EStalkMe - Start");
 	}
