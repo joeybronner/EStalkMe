@@ -49,9 +49,16 @@ public class XMLRetrieveValues {
 	}
 
 	public static List<String> getAllGoodLinks(Document doc) {
-		List<String> texts = new ArrayList<String>();
+		return getListOfNodeContent(doc, "goods");
+	}
 
-		NodeList c = doc.getElementsByTagName("goods");
+	public static List<String> getAllBadLinks(Document doc) {
+		return getListOfNodeContent(doc, "bads");
+	}
+	
+	private static List<String> getListOfNodeContent(Document doc, String parentNode) {
+		List<String> texts = new ArrayList<String>();
+		NodeList c = doc.getElementsByTagName(parentNode);
 		for (int i = 0; i < c.getLength(); i++) {
 			if (c.item(i) instanceof Element) {
 				NodeList children = c.item(i).getChildNodes();

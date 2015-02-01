@@ -89,6 +89,8 @@ public class GUIResults extends JFrame {
 		doc = XMLUtils.getXMLFileAsDocument(XMLUtils.getXMLFile(Constants.firstName,Constants.lastName));
 		Constants.goodLinks.clear();
 		Constants.goodLinks = XMLRetrieveValues.getAllGoodLinks(doc);
+		Constants.badLinks.clear();
+		Constants.badLinks = XMLRetrieveValues.getAllBadLinks(doc);
 	}
 
 	private void loadFields() throws XPathExpressionException {
@@ -392,18 +394,21 @@ public class GUIResults extends JFrame {
 			Color color = null;
 
 			if (Constants.goodLinks.contains(vertex.toString())) {
-				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 20, 20);
+				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
 				color = Constants.GREEN;
+			} else if (Constants.badLinks.contains(vertex.toString())) {
+				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
+				color = Constants.RED;
 			} else if(vertex.equals("Square")) {
 				//shape = new Rectangle((int) center.getX() - 10, (int) center.getY() - 10, 20, 20);
-				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 20, 20);
+				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
 				color = Constants.RED;
 			} else if(vertex.equals("Rectangle")) {
 				//shape = new Rectangle((int) center.getX() - 10, (int) center.getY() - 20, 20, 40);
-				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 20, 20);
+				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
 				color = Constants.GREEN;
 			} else if(vertex.equals("Circle")) {
-				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 20, 20);
+				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
 				color = Constants.GRAY;
 			} else {
 				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);

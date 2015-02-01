@@ -8,8 +8,6 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 
-import org.w3c.dom.NodeList;
-
 public class Constants
 {
 	//Styling
@@ -49,6 +47,7 @@ public class Constants
 	public static String lastName;
 	public static String name;
 	public static List<String> goodLinks = new ArrayList<String>();
+	public static List<String> badLinks = new ArrayList<String>();
 	
 	// File
 	public static String fileName;
