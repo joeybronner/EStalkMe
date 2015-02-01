@@ -29,6 +29,7 @@ public class Constants
 	public static Color GREEN = Color.decode("#27ae60");
 	public static Color RED = Color.decode("#c0392b");
 	public static Color GRAY = Color.decode("#7f8c8d");
+	public static Color YELLOW = Color.decode("#F7CA18");
 	
 	// Images
 	public static String urlImageConnected = "WebContent/img/ic_www_connection_ok.png";

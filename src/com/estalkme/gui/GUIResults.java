@@ -19,6 +19,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -38,10 +39,10 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.collections15.Transformer;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
 import com.estalkme.gui.dev.windowTools;
 import com.estalkme.gui.graph.SimpleGraphView;
+import com.estalkme.obj.Link;
 import com.estalkme.tools.Constants;
 import com.estalkme.xmltools.URLUtils;
 import com.estalkme.xmltools.XMLRetrieveValues;
@@ -70,13 +71,22 @@ public class GUIResults extends JFrame {
 	JLabel lblPrnom;
 	JLabel lblNom;
 	JLabel lblFileLink;
-	List<String> links;
+	List<String> googleSearchTitles = new ArrayList<String>();
+	List<String> googleSearchMinimalTitles = new ArrayList<String>();
+	List<String> googleSearchLinks = new ArrayList<String>();
+	List<Link> googleSearchResults;
 
 	// Facebook crawler : https://code.google.com/p/facebook-crawler/source/browse/#svn%2Ftrunk%2FFacebook
 
-	public GUIResults(String title, List<String> googleSearchResults) {
+	public GUIResults(String title, List<Link> googleSearchResults) {
 		try {
-			links = googleSearchResults;
+			this.googleSearchResults = googleSearchResults;
+			mergeWithGoodAndBadLinks();
+			for (Link l : googleSearchResults) {
+				googleSearchTitles.add(l.getTitle());
+				googleSearchMinimalTitles.add(l.getMinimalTitle());
+				googleSearchLinks.add(l.getLink());
+			}
 			loadLinks();
 			init(this);
 			loadFields();
@@ -85,8 +95,31 @@ public class GUIResults extends JFrame {
 		}
 	}
 
-	private void loadLinks() throws Exception {
+	private void mergeWithGoodAndBadLinks() {
 		doc = XMLUtils.getXMLFileAsDocument(XMLUtils.getXMLFile(Constants.firstName,Constants.lastName));
+		List<String> goods = XMLRetrieveValues.getAllGoodLinks(doc);
+		List<String> bads = XMLRetrieveValues.getAllBadLinks(doc);
+		
+		for (String l : goods) {
+			String title = URLUtils.getTitle(l);
+			String minimalTitle = URLUtils.getFirstWords(URLUtils.getTitle(l), 5);
+			googleSearchTitles.add(title);
+			googleSearchMinimalTitles.add(minimalTitle);
+			googleSearchLinks.add(l);
+			googleSearchResults.add(new Link(title, l, minimalTitle));
+		}
+		
+		for (String l : bads) {
+			String title = URLUtils.getTitle(l);
+			String minimalTitle = URLUtils.getFirstWords(URLUtils.getTitle(l), 5);
+			googleSearchTitles.add(title);
+			googleSearchMinimalTitles.add(minimalTitle);
+			googleSearchLinks.add(l);
+			googleSearchResults.add(new Link(title, l, minimalTitle));
+		}
+	}
+	
+	private void loadLinks() throws Exception {
 		Constants.goodLinks.clear();
 		Constants.goodLinks = XMLRetrieveValues.getAllGoodLinks(doc);
 		Constants.badLinks.clear();
@@ -293,14 +326,13 @@ public class GUIResults extends JFrame {
 
 		GridBagConstraints gbc_tree = new GridBagConstraints();
 		gbc_tree.insets = new Insets(0, 0, 5, 5);
-		gbc_tree.fill = GridBagConstraints.BOTH;
 		gbc_tree.gridx = 0;
 		gbc_tree.gridy = 0;
 
 		// -------------------------------------------------------------------------
 		// Graph
 		// -------------------------------------------------------------------------
-		SimpleGraphView sgv = new SimpleGraphView(links);
+		SimpleGraphView sgv = new SimpleGraphView(googleSearchMinimalTitles);
 		Layout<String, String> layout = new CircleLayout(sgv.g);
 		VisualizationViewer<String, String> vv = new VisualizationViewer<String, String>(layout);
 		vv.setBackground(Color.WHITE);
@@ -364,15 +396,13 @@ public class GUIResults extends JFrame {
 			}
 		});
 
+		// Paint
+		vv.getRenderer().setVertexRenderer(new MyRenderer());
 
 		vv.getRenderContext().setEdgeStrokeTransformer(edgeStrokeTransformer);
 		vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 		vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
 		vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
-
-
-		// Paint
-		vv.getRenderer().setVertexRenderer(new MyRenderer());
 
 		// Create a graph mouse and add it to the visualization component
 		//DefaultModalGraphMouse gm = new DefaultModalGraphMouse();
@@ -399,6 +429,9 @@ public class GUIResults extends JFrame {
 			} else if (Constants.badLinks.contains(vertex.toString())) {
 				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
 				color = Constants.RED;
+			} else if ((Constants.firstName + " " + Constants.lastName).equals(vertex.toString())) {
+				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 80, 80);
+				color = Constants.YELLOW;
 			} else if(vertex.equals("Square")) {
 				//shape = new Rectangle((int) center.getX() - 10, (int) center.getY() - 10, 20, 20);
 				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);

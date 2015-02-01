@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -19,7 +20,9 @@ import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
 
 import com.estalkme.google.api.GoogleResults;
+import com.estalkme.obj.Link;
 import com.estalkme.tools.Constants;
+import com.estalkme.xmltools.URLUtils;
 import com.estalkme.xmltools.XMLUtils;
 
 import java.awt.Color;
@@ -32,7 +35,8 @@ public class GUISearch extends JFrame {
 	private static JPanel window;
 	@SuppressWarnings("rawtypes")
 	private static JList list = new JList();
-	private static List<String> googleSearchResults;
+	private static List<String> googleSearchLinks;
+	private static List<Link> googleSearchResults = new ArrayList<Link>();
 
 	/**
 	 * Create the frame.
@@ -55,7 +59,7 @@ public class GUISearch extends JFrame {
 			System.out.println("Erreur lors de la recherche... <com.estalkme.gui.GUISearch.java>\n" + e);
 		}
 	}
-	
+
 	public void initConstants(String firstName, String lastName) {
 		Constants.fileName = XMLUtils.buildFileName(firstName, lastName);
 		Constants.filePath = Constants.SAVE_PATH + Constants.fileName;
@@ -65,10 +69,16 @@ public class GUISearch extends JFrame {
 	public void fillList(String firstName, String lastName) {
 		try {
 			// Get results from Google
-			googleSearchResults = GoogleResults.readAsList(firstName, lastName);
+			googleSearchResults.clear();
+			googleSearchLinks = GoogleResults.readAsList(firstName, lastName);
+			for (int i=0 ; i<googleSearchLinks.size() ; i++) {
+				String l = googleSearchLinks.get(i).toString();
+				String title = URLUtils.getTitle(googleSearchLinks.get(i).toString());
+				String minimalTitle = URLUtils.getFirstWords(title, 5);
+				googleSearchResults.add(new Link(title, l, minimalTitle));
+			}
 			list.setBackground(SystemColor.controlHighlight);
-			// Fill JList
-			list.setListData(googleSearchResults.toArray());
+			list.setListData(googleSearchLinks.toArray());
 		} catch (Exception e) {
 			// Open GUIResults
 			GUINoInternetConnection connection = new GUINoInternetConnection(this, firstName, lastName);
@@ -157,5 +167,4 @@ public class GUISearch extends JFrame {
 		btnNePasSe.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/bad.PNG"))));
 		panel.add(btnNePasSe, "cell 0 5,alignx center");
 	}
-
 }
