@@ -75,26 +75,49 @@ public class GUIResults extends JFrame {
 	List<String> googleSearchMinimalTitles = new ArrayList<String>();
 	List<String> googleSearchLinks = new ArrayList<String>();
 	List<Link> googleSearchResults;
+	List<String> cloudWords = new ArrayList<String>();
 
 	// Facebook crawler : https://code.google.com/p/facebook-crawler/source/browse/#svn%2Ftrunk%2FFacebook
 
 	public GUIResults(String title, List<Link> googleSearchResults) {
 		try {
 			this.googleSearchResults = googleSearchResults;
+			addAditionalInfosByLink();
 			mergeWithGoodAndBadLinks();
-			for (Link l : googleSearchResults) {
-				googleSearchTitles.add(l.getTitle());
-				googleSearchMinimalTitles.add(l.getMinimalTitle());
-				googleSearchLinks.add(l.getLink());
-			}
+			loadCloudWords();
 			loadLinks();
 			init(this);
-			loadFields();
+			loadFields();	
 		} catch (Exception e) {
 			System.out.println("Erreur lors du chargement de la fenêtre... <com.estalkme.gui.GUIResult.java>\n" + e);
 		}
 	}
+	
+	private void addAditionalInfosByLink() {
+		for (Link l : googleSearchResults) {
+			googleSearchTitles.add(l.getTitle());
+			googleSearchMinimalTitles.add(l.getMinimalTitle());
+			googleSearchLinks.add(l.getLink());
+		}
+		
+	}
 
+	private void loadCloudWords() {
+		List<String> goods = XMLRetrieveValues.getAllGoodLinks(doc);
+		for (String g : goods) {
+			List<String> words = URLUtils.getMetadata(g);
+			if (words != null) {
+				for (String word : words) {
+					cloudWords.add(word.trim());
+				}
+			}
+		}
+		
+		for (String mot : cloudWords) {
+			System.out.println(mot);
+		}
+	}
+	
 	private void mergeWithGoodAndBadLinks() {
 		doc = XMLUtils.getXMLFileAsDocument(XMLUtils.getXMLFile(Constants.firstName,Constants.lastName));
 		List<String> goods = XMLRetrieveValues.getAllGoodLinks(doc);

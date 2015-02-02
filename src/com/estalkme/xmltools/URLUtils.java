@@ -7,8 +7,14 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 public class URLUtils {
 
@@ -41,6 +47,19 @@ public class URLUtils {
 		}
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static List<String> getMetadata(String url) {
+		try {
+			Document doc = Jsoup.connect(url).get();  
+			String keywords = doc.select("meta[name=keywords]").first().attr("content");
+			String[] words = keywords.split(",");
+			return new ArrayList(Arrays.asList(words));
+		} catch (Exception e) {
+			// Nothing...
+		}
+		return null;
+	}
+
 	/**
 	 * Retrieves the Page's title.
 	 * 
@@ -65,7 +84,7 @@ public class URLUtils {
 			bufReader = new BufferedReader( new InputStreamReader(theURL.openStream()) );
 
 			while((line = bufReader.readLine()) != null && !foundEndTag) {
-			
+
 				if( !foundStartTag && (startIndex = line.toLowerCase().indexOf(startTag)) != -1) {
 					foundStartTag = true;
 				}
