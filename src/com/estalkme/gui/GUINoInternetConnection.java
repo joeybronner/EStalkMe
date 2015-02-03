@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -24,7 +25,7 @@ import com.jgoodies.forms.layout.RowSpec;
 public class GUINoInternetConnection extends JFrame {
 
 	private static JPanel window;
-	
+
 	public GUINoInternetConnection(JFrame search, String firstName, String lastName) {
 		try {
 			setAlwaysOnTop(true);
@@ -32,13 +33,16 @@ public class GUINoInternetConnection extends JFrame {
 		} catch (Exception e) {
 			System.out.println("Erreur... <com.estalkme.gui.GUINoInternetConnection.java>\n" + e);
 		}
-		
+
 	}
 
 	private void init(JFrame f, JFrame search) throws IOException {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setBounds(100, 100, 350, 160);
-		
+
+		// JFrame Icon
+		f.setIconImage(ImageIO.read(new File(Constants.ICON)));
+
 		window = new JPanel();
 		window.setBackground(Color.WHITE);
 		window.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -54,7 +58,7 @@ public class GUINoInternetConnection extends JFrame {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
-			new RowSpec[] {
+				new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -63,10 +67,10 @@ public class GUINoInternetConnection extends JFrame {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
-		
+
 		JLabel lblLapplicationNecessiteUne = new JLabel("L'application necessite une connexion \u00E0 internet");
 		window.add(lblLapplicationNecessiteUne, "6, 2");
-		
+
 		JButton btnReessayer = new JButton("Reessayer");
 		btnReessayer.setBackground(SystemColor.controlHighlight);
 		btnReessayer.addMouseListener(new MouseAdapter() {
@@ -78,7 +82,7 @@ public class GUINoInternetConnection extends JFrame {
 				dispose();
 			}
 		});
-		
+
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/connection.PNG"))));
 		window.add(label, "6, 4, center, default");

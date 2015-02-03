@@ -17,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -92,14 +93,14 @@ public class GUIResults extends JFrame {
 			System.out.println("Erreur lors du chargement de la fenêtre... <com.estalkme.gui.GUIResult.java>\n" + e);
 		}
 	}
-	
+
 	private void addAditionalInfosByLink() {
 		for (Link l : googleSearchResults) {
 			googleSearchTitles.add(l.getTitle());
 			googleSearchMinimalTitles.add(l.getMinimalTitle());
 			googleSearchLinks.add(l.getLink());
 		}
-		
+
 	}
 
 	private void loadCloudWords() {
@@ -112,17 +113,17 @@ public class GUIResults extends JFrame {
 				}
 			}
 		}
-		
+
 		for (String mot : cloudWords) {
 			System.out.println(mot);
 		}
 	}
-	
+
 	private void mergeWithGoodAndBadLinks() {
 		doc = XMLUtils.getXMLFileAsDocument(XMLUtils.getXMLFile(Constants.firstName,Constants.lastName));
 		List<String> goods = XMLRetrieveValues.getAllGoodLinks(doc);
 		List<String> bads = XMLRetrieveValues.getAllBadLinks(doc);
-		
+
 		for (String l : goods) {
 			String title = URLUtils.getTitle(l);
 			String minimalTitle = URLUtils.getFirstWords(URLUtils.getTitle(l), 5);
@@ -131,7 +132,7 @@ public class GUIResults extends JFrame {
 			googleSearchLinks.add(l);
 			googleSearchResults.add(new Link(title, l, minimalTitle));
 		}
-		
+
 		for (String l : bads) {
 			String title = URLUtils.getTitle(l);
 			String minimalTitle = URLUtils.getFirstWords(URLUtils.getTitle(l), 5);
@@ -141,7 +142,7 @@ public class GUIResults extends JFrame {
 			googleSearchResults.add(new Link(title, l, minimalTitle));
 		}
 	}
-	
+
 	private void loadLinks() throws Exception {
 		Constants.goodLinks.clear();
 		Constants.goodLinks = XMLRetrieveValues.getAllGoodLinks(doc);
@@ -159,6 +160,9 @@ public class GUIResults extends JFrame {
 	private void init(final JFrame f) throws Exception {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+
+		// JFrame Icon
+		f.setIconImage(ImageIO.read(new File(Constants.ICON)));
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Tahoma", Font.PLAIN, 10));

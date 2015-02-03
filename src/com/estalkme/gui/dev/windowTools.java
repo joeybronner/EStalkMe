@@ -7,7 +7,9 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -47,6 +49,9 @@ public class windowTools {
 		
 		// Window creation
 		final JFrame window = new javax.swing.JFrame(title);
+		
+		// JFrame Icon
+		window.setIconImage(ImageIO.read(new File(Constants.ICON)));
 
 		// Body
 		JPanel body = new JPanel();

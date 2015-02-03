@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +97,9 @@ public class GUISearch extends JFrame {
 		window.setBorder(new EmptyBorder(5, 5, 5, 5));
 		window.setLayout(new BorderLayout(0, 0));
 		f.setContentPane(window);
+		
+		// JFrame Icon
+		f.setIconImage(ImageIO.read(new File(Constants.ICON)));		
 
 		JPanel panelBody = new JPanel();
 		panelBody.setBackground(SystemColor.window);

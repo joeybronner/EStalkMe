@@ -14,6 +14,9 @@ public class Constants
 	public static Border blackline = BorderFactory.createLineBorder(Color.black);
 	public static Border whiteline = BorderFactory.createLineBorder(Color.white);
 	
+	// Frame Icon
+	public static final String ICON = "src/com/estalkme/gui/img/icon.png";
+	
 	// Panel, frame and composents sizes
 	public static final Dimension dimFrame = new Dimension(600, 400);
 	public static final Dimension dimHeader = new Dimension(600, 100);

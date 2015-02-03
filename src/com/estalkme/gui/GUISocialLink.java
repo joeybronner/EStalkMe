@@ -3,6 +3,7 @@ package com.estalkme.gui;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -37,6 +38,9 @@ public class GUISocialLink extends JFrame {
 	private void init(JFrame f, final String type) throws IOException {
 		f.setBounds(100, 100, 450, 90);
 		f.setTitle("EStalkMe - Ajouter/Modifier un lien social");
+		
+		// JFrame Icon
+		f.setIconImage(ImageIO.read(new File(Constants.ICON)));
 
 		getContentPane().setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
