@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<person id="VirginieSans">
+    <about>
+        <gender/>
+        <firstname>Virginie</firstname>
+        <lastname>Sans</lastname>
+        <dateofbirth/>
+    </about>
+    <friends/>
+    <social/>
+    <workexperience/>
+    <links>
+        <reputation>
+            <goods/>
+            <bads/>
+        </reputation>
+        <approvals/>
+        <disapprovals/>
+    </links>
+</person>

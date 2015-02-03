@@ -1,12 +1,14 @@
 package com.estalkme.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +28,6 @@ import com.estalkme.obj.Link;
 import com.estalkme.tools.Constants;
 import com.estalkme.xmltools.URLUtils;
 import com.estalkme.xmltools.XMLUtils;
-
-import java.awt.Color;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class GUISearch extends JFrame {
 
@@ -91,13 +89,13 @@ public class GUISearch extends JFrame {
 
 	private void init(JFrame f) throws Exception {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setBounds(100, 100, 450, 450);
+		f.setBounds(100, 100, 750, 450);
 		window = new JPanel();
 		window.setBackground(Color.WHITE);
 		window.setBorder(new EmptyBorder(5, 5, 5, 5));
 		window.setLayout(new BorderLayout(0, 0));
 		f.setContentPane(window);
-		
+
 		// JFrame Icon
 		f.setIconImage(ImageIO.read(new File(Constants.ICON)));		
 
@@ -115,14 +113,18 @@ public class GUISearch extends JFrame {
 		btnSuivant.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// Open GUIResults
-				GUIResults results = new GUIResults("EStalkMe - Results", googleSearchResults);
-				results.setLocationRelativeTo(null); // center
-				results.setVisible(true);
+				// If some links are found
+				if(googleSearchResults.size() > 0) {
+					// Open GUIResults
+					GUIResults results = new GUIResults("EStalkMe - Results", googleSearchResults);
+					results.setLocationRelativeTo(null); // center
+					results.setVisible(true);
 
-				// Close Start Window
-				setVisible(false); 
-				dispose();
+					// Close Start Window
+					setVisible(false); 
+					dispose();
+
+				}
 			}
 		});
 		btnSuivant.setBackground(SystemColor.controlHighlight);

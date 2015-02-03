@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -72,11 +73,14 @@ public class GUIResults extends JFrame {
 	JLabel lblPrnom;
 	JLabel lblNom;
 	JLabel lblFileLink;
+	JLabel lblCloudword, lblCloudword_1, lblCloudword_2, lblCloudword_3, lblCloudword_4, lblCloudword_5,
+			lblCloudword_6, lblCloudword_7, lblCloudword_8, lblCloudword_9;
 	List<String> googleSearchTitles = new ArrayList<String>();
 	List<String> googleSearchMinimalTitles = new ArrayList<String>();
 	List<String> googleSearchLinks = new ArrayList<String>();
 	List<Link> googleSearchResults;
 	List<String> cloudWords = new ArrayList<String>();
+	List<String> cloudWordsRestricted = new ArrayList<String>();
 
 	// Facebook crawler : https://code.google.com/p/facebook-crawler/source/browse/#svn%2Ftrunk%2FFacebook
 
@@ -109,13 +113,18 @@ public class GUIResults extends JFrame {
 			List<String> words = URLUtils.getMetadata(g);
 			if (words != null) {
 				for (String word : words) {
-					cloudWords.add(word.trim());
+					if (!word.trim().equals("")) {
+						cloudWords.add(word.trim());
+					}				
 				}
 			}
 		}
 
-		for (String mot : cloudWords) {
-			System.out.println(mot);
+		for (int i=0 ; i<10 ; i++) {
+			Random random = new Random();
+			int randomNumber = random.nextInt(cloudWords.size());
+			//System.out.println(cloudWords.get(randomNumber));
+			cloudWordsRestricted.add(cloudWords.get(randomNumber).toString());
 		}
 	}
 
@@ -154,6 +163,18 @@ public class GUIResults extends JFrame {
 		lblPrnom.setText(XMLRetrieveValues.getFirstName(doc));
 		lblNom.setText(XMLRetrieveValues.getLastName(doc));
 		lblFileLink.setText(Constants.fileName);
+		
+		// Fill Could Words
+		lblCloudword.setText(cloudWordsRestricted.get(0).toString());
+		lblCloudword_1.setText(cloudWordsRestricted.get(1).toString());
+		lblCloudword_2.setText(cloudWordsRestricted.get(2).toString());
+		lblCloudword_3.setText(cloudWordsRestricted.get(3).toString());
+		lblCloudword_4.setText(cloudWordsRestricted.get(4).toString());
+		lblCloudword_5.setText(cloudWordsRestricted.get(5).toString());
+		lblCloudword_6.setText(cloudWordsRestricted.get(6).toString());
+		lblCloudword_7.setText(cloudWordsRestricted.get(7).toString());
+		lblCloudword_8.setText(cloudWordsRestricted.get(8).toString());
+		lblCloudword_9.setText(cloudWordsRestricted.get(9).toString());
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -212,6 +233,26 @@ public class GUIResults extends JFrame {
 				new RowSpec[] {
 				FormFactory.LINE_GAP_ROWSPEC,
 				RowSpec.decode("17px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -290,6 +331,45 @@ public class GUIResults extends JFrame {
 		});
 		imgLinkedin.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/linkedin.png"))));
 		left.add(imgLinkedin, "2, 16, center, default");
+
+		lblCloudword = new JLabel("CloudWord1");
+		lblCloudword.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		left.add(lblCloudword, "2, 20, right, default");
+
+		lblCloudword_1 = new JLabel("CloudWord2");
+		lblCloudword_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		left.add(lblCloudword_1, "2, 22, center, default");
+
+		lblCloudword_2 = new JLabel("CloudWord3");
+		lblCloudword_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		left.add(lblCloudword_2, "2, 24");
+
+		lblCloudword_3 = new JLabel("CloudWord4");
+		lblCloudword_3.setFont(new Font("Tahoma", Font.PLAIN, 8));
+		left.add(lblCloudword_3, "2, 26, center, default");
+
+		lblCloudword_4 = new JLabel("CloudWord5");
+		lblCloudword_4.setFont(new Font("Tahoma", Font.BOLD, 11));
+		left.add(lblCloudword_4, "2, 28, right, default");
+
+		lblCloudword_5 = new JLabel("CloudWord6");
+		lblCloudword_5.setFont(new Font("Tahoma", Font.ITALIC, 17));
+		left.add(lblCloudword_5, "2, 30, center, default");
+
+		lblCloudword_6 = new JLabel("CloudWord7");
+		lblCloudword_6.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		left.add(lblCloudword_6, "2, 32");
+
+		lblCloudword_7 = new JLabel("CloudWord8");
+		left.add(lblCloudword_7, "2, 34");
+
+		lblCloudword_8 = new JLabel("CloudWord9");
+		lblCloudword_8.setFont(new Font("Tahoma", Font.ITALIC, 14));
+		left.add(lblCloudword_8, "2, 36, right, default");
+
+		lblCloudword_9 = new JLabel("CloudWord10");
+		lblCloudword_9.setFont(new Font("Tahoma", Font.BOLD, 16));
+		left.add(lblCloudword_9, "2, 38");
 
 		JPanel header = new JPanel();
 		header.setBackground(Color.WHITE);
