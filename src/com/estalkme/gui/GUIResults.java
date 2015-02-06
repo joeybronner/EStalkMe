@@ -74,7 +74,7 @@ public class GUIResults extends JFrame {
 	JLabel lblNom;
 	JLabel lblFileLink;
 	JLabel lblCloudword, lblCloudword_1, lblCloudword_2, lblCloudword_3, lblCloudword_4, lblCloudword_5,
-			lblCloudword_6, lblCloudword_7, lblCloudword_8, lblCloudword_9;
+	lblCloudword_6, lblCloudword_7, lblCloudword_8, lblCloudword_9;
 	List<String> googleSearchTitles = new ArrayList<String>();
 	List<String> googleSearchMinimalTitles = new ArrayList<String>();
 	List<String> googleSearchLinks = new ArrayList<String>();
@@ -163,7 +163,7 @@ public class GUIResults extends JFrame {
 		lblPrnom.setText(XMLRetrieveValues.getFirstName(doc));
 		lblNom.setText(XMLRetrieveValues.getLastName(doc));
 		lblFileLink.setText(Constants.fileName);
-		
+
 		// Fill Could Words
 		lblCloudword.setText(cloudWordsRestricted.get(0).toString());
 		lblCloudword_1.setText(cloudWordsRestricted.get(1).toString());
@@ -471,15 +471,12 @@ public class GUIResults extends JFrame {
 			@Override
 			public void graphClicked(Object v, MouseEvent me) {
 				if (me.getButton() == MouseEvent.BUTTON1 && me.getClickCount() == 1) {
-					try {
-						URLUtils.openWebpage(new URL(v.toString()));
-						GUINodeDetail results = new GUINodeDetail(v.toString());
-						results.setLocationRelativeTo(null); // center
-						results.setVisible(true);
-					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					Link l = searchLinkfromMinimalTitle(v.toString());
+					if (l!=null) {
+						GUINodeDetail results = new GUINodeDetail(l);
+						results.setLocationRelativeTo(null);
+						results.setVisible(true);	
+					}			
 				}
 				me.consume();
 			}
@@ -520,6 +517,15 @@ public class GUIResults extends JFrame {
 
 		body.add(vv, gbc_tree);
 
+	}
+
+	private Link searchLinkfromMinimalTitle(String minimalTitle) {
+		for(Link l : googleSearchResults){
+			if(l.getMinimalTitle().equals(minimalTitle)) {
+				return l;
+			}
+		}
+		return null;
 	}
 
 	static class MyRenderer implements Renderer.Vertex<String, String> {
