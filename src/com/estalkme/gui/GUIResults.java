@@ -42,7 +42,6 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.collections15.Transformer;
 import org.w3c.dom.Document;
 
-import com.estalkme.gui.dev.windowTools;
 import com.estalkme.gui.graph.SimpleGraphView;
 import com.estalkme.obj.Link;
 import com.estalkme.tools.Constants;
@@ -192,7 +191,7 @@ public class GUIResults extends JFrame {
 		newSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					windowTools.createStartWindow("EStalkMe - Start");
+					GUIHome.createStartWindow("EStalkMe - Start");
 					setVisible(false); 
 					dispose();	
 				} catch (Exception e) {

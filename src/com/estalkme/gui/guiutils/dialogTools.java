@@ -1,4 +1,4 @@
-package com.estalkme.gui.dev;
+package com.estalkme.gui.guiutils;
 
 import javax.swing.JOptionPane;
 
