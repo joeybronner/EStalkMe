@@ -1,5 +1,7 @@
 package com.estalkme.obj;
 
+import java.util.List;
+
 public class Link {
 	
 	String title;
@@ -36,6 +38,15 @@ public class Link {
 	
 	public void setMinimalTitle(String ml) {
 		this.minimalTitle = ml;
+	}
+	
+	public static Link getLinkfromMinimalTitle(List<Link> googleSearchResults, String minimalTitle) {
+		for(Link l : googleSearchResults){
+			if(l.getMinimalTitle().equals(minimalTitle)) {
+				return l;
+			}
+		}
+		return null;
 	}
 
 }

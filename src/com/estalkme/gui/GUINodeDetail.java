@@ -39,10 +39,16 @@ public class GUINodeDetail extends JFrame {
 					FormFactory.RELATED_GAP_COLSPEC,
 					FormFactory.DEFAULT_COLSPEC,
 					FormFactory.RELATED_GAP_COLSPEC,
-					FormFactory.DEFAULT_COLSPEC,},
+					FormFactory.DEFAULT_COLSPEC,
+					FormFactory.RELATED_GAP_COLSPEC,
+					FormFactory.DEFAULT_COLSPEC,
+					FormFactory.RELATED_GAP_COLSPEC,
+					FormFactory.DEFAULT_COLSPEC,
+					FormFactory.RELATED_GAP_COLSPEC,
+					FormFactory.DEFAULT_COLSPEC,
+					FormFactory.RELATED_GAP_COLSPEC,
+					ColumnSpec.decode("right:default"),},
 				new RowSpec[] {
-					FormFactory.RELATED_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,
 					FormFactory.RELATED_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,
 					FormFactory.RELATED_GAP_ROWSPEC,
@@ -50,34 +56,13 @@ public class GUINodeDetail extends JFrame {
 					FormFactory.RELATED_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,}));
 
-			JButton btnOpenLink = new JButton("Ouvrir le lien dans un navigateur");
-			btnOpenLink.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					try {
-						URLUtils.openWebpage(new URL(link.getLink()));
-					} catch (MalformedURLException e) {
-						// TODO catch
-					}
-				}
-			});
-
-			JLabel lblTitre = new JLabel("Titre");
-			lblTitre.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
-			getContentPane().add(lblTitre, "2, 2");
-
 			lblTitreLink = new JLabel("titre");
 			lblTitreLink.setFont(new Font("Tahoma", Font.PLAIN, 10));
-			getContentPane().add(lblTitreLink, "4, 2");
-
-			JLabel lblLien = new JLabel("Lien");
-			lblLien.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
-			getContentPane().add(lblLien, "2, 4");
+			getContentPane().add(lblTitreLink, "2, 2, 11, 1");
 
 			lblLienLink = new JLabel("lien");
 			lblLienLink.setFont(new Font("Tahoma", Font.PLAIN, 10));
-			getContentPane().add(lblLienLink, "4, 4");
-
-			getContentPane().add(btnOpenLink, "4, 8, left, default");
+			getContentPane().add(lblLienLink, "2, 4, 11, 1");
 
 			// Load all infos about this node
 			if (link.getTitle() == link.getLink()) {
@@ -87,6 +72,19 @@ public class GUINodeDetail extends JFrame {
 				lblTitreLink.setText(link.getTitle());
 			}
 			lblLienLink.setText(link.getLink());
+			
+						JButton btnOpenLink = new JButton("Ouvrir le lien dans un navigateur");
+						btnOpenLink.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent arg0) {
+								try {
+									URLUtils.openWebpage(new URL(link.getLink()));
+								} catch (MalformedURLException e) {
+									// TODO catch
+								}
+							}
+						});
+						
+									getContentPane().add(btnOpenLink, "12, 6, left, default");
 		} catch (Exception e) {
 			System.out.println("Erreur... <com.estalkme.gui.GUINodeDetail.java>\n" + e);
 		}
@@ -96,7 +94,7 @@ public class GUINodeDetail extends JFrame {
 
 	private void init(JFrame f, Link link) throws IOException {
 		//f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setBounds(100, 100, 350, 160);
+		f.setBounds(100, 100, 350, 125);
 
 		// JFrame Icon
 		f.setIconImage(ImageIO.read(new File(Constants.ICON)));

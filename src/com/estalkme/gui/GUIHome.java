@@ -105,7 +105,7 @@ public class GUIHome {
 						dialogTools.showErrorMsg("Error", "Please enter a valid first and last name format (e.g. \"Barack OBAMA\")");
 					}
 				} catch (Exception e1) {
-					// Error
+					// TODO Error
 					e1.printStackTrace();
 				}
 			}
@@ -120,5 +120,4 @@ public class GUIHome {
 
 		return window;
 	}
-
 }

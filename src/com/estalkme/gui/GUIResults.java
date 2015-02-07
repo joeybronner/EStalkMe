@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.SystemColor;
@@ -18,8 +17,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -36,13 +33,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.collections15.Transformer;
 import org.w3c.dom.Document;
 
-import com.estalkme.gui.graph.SimpleGraphView;
+import com.estalkme.gui.graph.GraphNode;
 import com.estalkme.obj.Link;
 import com.estalkme.tools.Constants;
 import com.estalkme.xmltools.URLUtils;
@@ -77,12 +73,13 @@ public class GUIResults extends JFrame {
 	List<String> googleSearchTitles = new ArrayList<String>();
 	List<String> googleSearchMinimalTitles = new ArrayList<String>();
 	List<String> googleSearchLinks = new ArrayList<String>();
-	List<Link> googleSearchResults;
+	static List<Link> googleSearchResults;
 	List<String> cloudWords = new ArrayList<String>();
 	List<String> cloudWordsRestricted = new ArrayList<String>();
 
 	// Facebook crawler : https://code.google.com/p/facebook-crawler/source/browse/#svn%2Ftrunk%2FFacebook
 
+	@SuppressWarnings("static-access")
 	public GUIResults(String title, List<Link> googleSearchResults) {
 		try {
 			this.googleSearchResults = googleSearchResults;
@@ -223,7 +220,7 @@ public class GUIResults extends JFrame {
 		f.setContentPane(window);
 
 		JPanel left = new JPanel();
-		left.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
+		// TODO : effacer ?left.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
 		left.setBackground(Color.WHITE);
 		window.add(left, BorderLayout.WEST);
 		left.setLayout(new FormLayout(new ColumnSpec[] {
@@ -372,7 +369,7 @@ public class GUIResults extends JFrame {
 
 		JPanel header = new JPanel();
 		header.setBackground(Color.WHITE);
-		header.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
+		// TODO : effacer ?header.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
 		window.add(header, BorderLayout.NORTH);
 		GridBagLayout gbl_header = new GridBagLayout();
 		gbl_header.columnWidths = new int[]{0, 0, 0, 0};
@@ -390,7 +387,7 @@ public class GUIResults extends JFrame {
 		header.add(lblLogoApp, gbc_lblLogoApp);
 
 		JPanel footer = new JPanel();
-		footer.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
+		// TODO : effacer ?footer.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
 		footer.setBackground(Color.WHITE);
 		window.add(footer, BorderLayout.SOUTH);
 		GridBagLayout gbl_footer = new GridBagLayout();
@@ -415,12 +412,12 @@ public class GUIResults extends JFrame {
 		footer.add(lblFileLink, gbc_lblFileLink);
 
 		JPanel right = new JPanel();
-		right.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
+		// TODO : effacer ?right.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
 		right.setBackground(Color.WHITE);
 		window.add(right, BorderLayout.EAST);
 
 		JPanel body = new JPanel();
-		body.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
+		// TODO : effacer ?body.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
 		body.setBackground(Color.WHITE);
 		window.add(body, BorderLayout.CENTER);
 		GridBagLayout gbl_body = new GridBagLayout();
@@ -438,16 +435,17 @@ public class GUIResults extends JFrame {
 		// -------------------------------------------------------------------------
 		// Graph
 		// -------------------------------------------------------------------------
-		SimpleGraphView sgv = new SimpleGraphView(googleSearchMinimalTitles);
+		GraphNode sgv = new GraphNode(googleSearchMinimalTitles);
 		Layout<String, String> layout = new CircleLayout(sgv.g);
 		VisualizationViewer<String, String> vv = new VisualizationViewer<String, String>(layout);
 		vv.setBackground(Color.WHITE);
 
+		/*
 		Transformer<Integer,Paint> vertexPaint = new Transformer<Integer,Paint>() {
 			public Paint transform(Integer i) {
 				return Color.GRAY;
 			}
-		};
+		};*/
 
 		float dash[] = {10.0f};
 		final Stroke edgeStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f);
@@ -465,12 +463,13 @@ public class GUIResults extends JFrame {
 				return arg0;
 			}
 		});
-		vv.addGraphMouseListener(new GraphMouseListener() {
 
+		// Action when click on Node
+		vv.addGraphMouseListener(new GraphMouseListener() {
 			@Override
 			public void graphClicked(Object v, MouseEvent me) {
 				if (me.getButton() == MouseEvent.BUTTON1 && me.getClickCount() == 1) {
-					Link l = searchLinkfromMinimalTitle(v.toString());
+					Link l = Link.getLinkfromMinimalTitle(googleSearchResults, v.toString());
 					if (l!=null) {
 						GUINodeDetail results = new GUINodeDetail(l);
 						results.setLocationRelativeTo(null);
@@ -481,16 +480,10 @@ public class GUIResults extends JFrame {
 			}
 
 			@Override
-			public void graphPressed(Object arg0, MouseEvent arg1) {
-				// TODO Auto-generated method stub
-
-			}
+			public void graphPressed(Object arg0, MouseEvent arg1) {/*No action.*/}
 
 			@Override
-			public void graphReleased(Object arg0, MouseEvent arg1) {
-				// TODO Auto-generated method stub
-
-			}
+			public void graphReleased(Object arg0, MouseEvent arg1) {/*No action.*/}
 		});
 		vv.getRenderContext().setEdgeLabelTransformer(new Transformer<String, String>() {
 			@Override
@@ -507,24 +500,7 @@ public class GUIResults extends JFrame {
 		vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
 		vv.getRenderer().getVertexLabelRenderer().setPosition(Position.CNTR);
 
-		// Create a graph mouse and add it to the visualization component
-		//DefaultModalGraphMouse gm = new DefaultModalGraphMouse();
-		//gm.setMode(ModalGraphMouse.Mode.TRANSFORMING);
-		//vv.setGraphMouse(gm); 
-		// Add the mouses mode key listener to work it needs to be added to the visualization component
-		//vv.addKeyListener(gm.getModeKeyListener());
-
 		body.add(vv, gbc_tree);
-
-	}
-
-	private Link searchLinkfromMinimalTitle(String minimalTitle) {
-		for(Link l : googleSearchResults){
-			if(l.getMinimalTitle().equals(minimalTitle)) {
-				return l;
-			}
-		}
-		return null;
 	}
 
 	static class MyRenderer implements Renderer.Vertex<String, String> {
@@ -535,29 +511,22 @@ public class GUIResults extends JFrame {
 			Shape shape = null;
 			Color color = null;
 
-			if (Constants.goodLinks.contains(vertex.toString())) {
-				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
-				color = Constants.GREEN;
-			} else if (Constants.badLinks.contains(vertex.toString())) {
-				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
-				color = Constants.RED;
-			} else if ((Constants.firstName + " " + Constants.lastName).equals(vertex.toString())) {
+			Link l = Link.getLinkfromMinimalTitle(googleSearchResults, vertex.toString());
+
+			if (l!=null) {
+				if (Constants.goodLinks.contains(l.getLink())) {
+					shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
+					color = Constants.GREEN;
+				} else if (Constants.badLinks.contains(l.getLink())) {
+					shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
+					color = Constants.RED;
+				} else {
+					shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
+					color = Constants.GRAY;
+				}
+			} else {
 				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 80, 80);
 				color = Constants.YELLOW;
-			} else if(vertex.equals("Square")) {
-				//shape = new Rectangle((int) center.getX() - 10, (int) center.getY() - 10, 20, 20);
-				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
-				color = Constants.RED;
-			} else if(vertex.equals("Rectangle")) {
-				//shape = new Rectangle((int) center.getX() - 10, (int) center.getY() - 20, 20, 40);
-				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
-				color = Constants.GREEN;
-			} else if(vertex.equals("Circle")) {
-				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
-				color = Constants.GRAY;
-			} else {
-				shape = new Ellipse2D.Double(center.getX() - 10, center.getY() - 10, 40, 40);
-				color = Constants.GRAY;
 			}
 			graphicsContext.setPaint(color);
 			graphicsContext.fill(shape);
