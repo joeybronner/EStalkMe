@@ -42,7 +42,7 @@ import com.estalkme.gui.graph.GraphNode;
 import com.estalkme.obj.Link;
 import com.estalkme.tools.Constants;
 import com.estalkme.xmltools.URLUtils;
-import com.estalkme.xmltools.XMLRetrieveValues;
+import com.estalkme.xmltools.XMLManageValues;
 import com.estalkme.xmltools.XMLUtils;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -68,6 +68,7 @@ public class GUIResults extends JFrame {
 	JLabel lblPrnom;
 	JLabel lblNom;
 	JLabel lblFileLink;
+	JLabel labelLoopNumber;
 	JLabel lblCloudword, lblCloudword_1, lblCloudword_2, lblCloudword_3, lblCloudword_4, lblCloudword_5,
 	lblCloudword_6, lblCloudword_7, lblCloudword_8, lblCloudword_9;
 	List<String> googleSearchTitles = new ArrayList<String>();
@@ -104,7 +105,7 @@ public class GUIResults extends JFrame {
 	}
 
 	private void loadCloudWords() {
-		List<String> goods = XMLRetrieveValues.getAllGoodLinks(doc);
+		List<String> goods = XMLManageValues.getAllGoodLinks(doc);
 		for (String g : goods) {
 			List<String> words = URLUtils.getMetadata(g);
 			if (words != null) {
@@ -126,8 +127,8 @@ public class GUIResults extends JFrame {
 
 	private void mergeWithGoodAndBadLinks() {
 		doc = XMLUtils.getXMLFileAsDocument(XMLUtils.getXMLFile(Constants.firstName,Constants.lastName));
-		List<String> goods = XMLRetrieveValues.getAllGoodLinks(doc);
-		List<String> bads = XMLRetrieveValues.getAllBadLinks(doc);
+		List<String> goods = XMLManageValues.getAllGoodLinks(doc);
+		List<String> bads = XMLManageValues.getAllBadLinks(doc);
 
 		for (String l : goods) {
 			String title = URLUtils.getTitle(l);
@@ -150,14 +151,14 @@ public class GUIResults extends JFrame {
 
 	private void loadLinks() throws Exception {
 		Constants.goodLinks.clear();
-		Constants.goodLinks = XMLRetrieveValues.getAllGoodLinks(doc);
+		Constants.goodLinks = XMLManageValues.getAllGoodLinks(doc);
 		Constants.badLinks.clear();
-		Constants.badLinks = XMLRetrieveValues.getAllBadLinks(doc);
+		Constants.badLinks = XMLManageValues.getAllBadLinks(doc);
 	}
 
 	private void loadFields() throws XPathExpressionException {
-		lblPrnom.setText(XMLRetrieveValues.getFirstName(doc));
-		lblNom.setText(XMLRetrieveValues.getLastName(doc));
+		lblPrnom.setText(XMLManageValues.getFirstName(doc));
+		lblNom.setText(XMLManageValues.getLastName(doc));
 		lblFileLink.setText(Constants.fileName);
 
 		// Fill Could Words
@@ -171,6 +172,9 @@ public class GUIResults extends JFrame {
 		lblCloudword_7.setText(cloudWordsRestricted.get(7).toString());
 		lblCloudword_8.setText(cloudWordsRestricted.get(8).toString());
 		lblCloudword_9.setText(cloudWordsRestricted.get(9).toString());
+		
+		// Update number of searches
+		labelLoopNumber.setText(Constants.nbOfSearches);
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -372,19 +376,36 @@ public class GUIResults extends JFrame {
 		// TODO : effacer ?header.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
 		window.add(header, BorderLayout.NORTH);
 		GridBagLayout gbl_header = new GridBagLayout();
-		gbl_header.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_header.columnWidths = new int[]{0, 0, 0, 0, 0};
 		gbl_header.rowHeights = new int[]{0, 0};
-		gbl_header.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_header.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_header.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		header.setLayout(gbl_header);
 
 		JLabel lblLogoApp = new JLabel("");
 		lblLogoApp.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/estalkme_logo128.png"))));
 		GridBagConstraints gbc_lblLogoApp = new GridBagConstraints();
+		gbc_lblLogoApp.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblLogoApp.insets = new Insets(0, 0, 0, 5);
 		gbc_lblLogoApp.gridx = 0;
 		gbc_lblLogoApp.gridy = 0;
 		header.add(lblLogoApp, gbc_lblLogoApp);
+		
+		JLabel lblLogoloop = new JLabel("");
+		lblLogoloop.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/loop.png"))));
+		GridBagConstraints gbc_lblLogoloop = new GridBagConstraints();
+		gbc_lblLogoloop.insets = new Insets(0, 0, 0, 5);
+		gbc_lblLogoloop.gridx = 1;
+		gbc_lblLogoloop.gridy = 0;
+		header.add(lblLogoloop, gbc_lblLogoloop);
+		
+		labelLoopNumber = new JLabel("-");
+		labelLoopNumber.setFont(new Font("Tahoma", Font.PLAIN, 40));
+		GridBagConstraints gbc_label = new GridBagConstraints();
+		gbc_label.insets = new Insets(0, 0, 0, 5);
+		gbc_label.gridx = 2;
+		gbc_label.gridy = 0;
+		header.add(labelLoopNumber, gbc_label);
 
 		JPanel footer = new JPanel();
 		// TODO : effacer ?footer.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));

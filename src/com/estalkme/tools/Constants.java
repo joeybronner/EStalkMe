@@ -52,6 +52,7 @@ public class Constants
 	public static String name;
 	public static List<String> goodLinks = new ArrayList<String>();
 	public static List<String> badLinks = new ArrayList<String>();
+	public static String nbOfSearches;
 	
 	// File
 	public static String fileName;

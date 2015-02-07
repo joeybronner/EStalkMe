@@ -48,7 +48,7 @@ public class GUINodeDetail extends JFrame {
 					FormFactory.DEFAULT_COLSPEC,
 					FormFactory.RELATED_GAP_COLSPEC,
 					ColumnSpec.decode("right:default"),},
-				new RowSpec[] {
+					new RowSpec[] {
 					FormFactory.RELATED_GAP_ROWSPEC,
 					FormFactory.DEFAULT_ROWSPEC,
 					FormFactory.RELATED_GAP_ROWSPEC,
@@ -72,19 +72,19 @@ public class GUINodeDetail extends JFrame {
 				lblTitreLink.setText(link.getTitle());
 			}
 			lblLienLink.setText(link.getLink());
-			
-						JButton btnOpenLink = new JButton("Ouvrir le lien dans un navigateur");
-						btnOpenLink.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
-								try {
-									URLUtils.openWebpage(new URL(link.getLink()));
-								} catch (MalformedURLException e) {
-									// TODO catch
-								}
-							}
-						});
-						
-									getContentPane().add(btnOpenLink, "12, 6, left, default");
+
+			JButton btnOpenLink = new JButton("Ouvrir le lien dans un navigateur");
+			btnOpenLink.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						URLUtils.openWebpage(new URL(link.getLink()));
+					} catch (MalformedURLException e) {
+						// TODO catch
+					}
+				}
+			});
+
+			getContentPane().add(btnOpenLink, "12, 6, left, default");
 		} catch (Exception e) {
 			System.out.println("Erreur... <com.estalkme.gui.GUINodeDetail.java>\n" + e);
 		}
@@ -93,7 +93,6 @@ public class GUINodeDetail extends JFrame {
 
 
 	private void init(JFrame f, Link link) throws IOException {
-		//f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setBounds(100, 100, 350, 125);
 
 		// JFrame Icon

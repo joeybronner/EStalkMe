@@ -82,7 +82,10 @@ public class GUIHome {
 					String firstName = fieldFirstName.getText().trim();
 					String lastName = fieldLastName.getText().trim();
 					if (ValidateFields.isValidName(firstName, lastName)) {
-						System.out.println(firstName + " " + lastName + " est valide.");
+						System.out.println(firstName + " " + lastName + " est valide.");	
+						
+						Constants.firstName = firstName;
+						Constants.lastName = lastName;
 						
 						// XML Creation
 						if (XMLUtils.existDocument(firstName, lastName)) {
@@ -90,9 +93,6 @@ public class GUIHome {
 						} else {
 							XMLUtils.createNewXMLDocument(firstName, lastName);
 						}
-						
-						Constants.firstName = firstName;
-						Constants.lastName = lastName;
 						
 						GUISearch search = new GUISearch("EStalkMe - Search", Constants.dimFrame, firstName, lastName);
 						search.setLocationRelativeTo(null); // center

@@ -12,8 +12,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
@@ -93,6 +97,11 @@ public class XMLUtils {
 			Node disapprovals = doc.createElement("disapprovals");
 			links.appendChild(disapprovals);
 
+			// Number of Searches
+			Element nbofsearches = doc.createElement("nbofsearches");
+			nbofsearches.setTextContent("1");
+			person.appendChild(nbofsearches);
+
 			// Save file
 			saveXMLDocumentAsFile(doc, new File(Constants.SAVE_PATH + buildFileName(firstName, lastName)));
 
@@ -116,10 +125,16 @@ public class XMLUtils {
 		return doc;
 	}
 
-	public static void updateXMLDocument(String firstName, String lastName) {
+	public static void updateXMLDocument(String firstName, String lastName)
+			throws XPathExpressionException, TransformerFactoryConfigurationError, TransformerException {
 		// Get & Print the document
 		Document doc = getXMLFileAsDocument(getXMLFile(firstName, lastName));
+		// +1 for the number of searches
+		int newNbOfSearches = Integer.valueOf(XMLManageValues.getNumberOfSearches(doc)) + 1;
+		Constants.nbOfSearches = String.valueOf(newNbOfSearches);
+		doc = XMLManageValues.setNumberOfSearches(doc, Constants.nbOfSearches);
 		printDocument(doc, System.out);
+		saveXMLDocumentAsFile(doc, getXMLFile(Constants.firstName, Constants.lastName));
 	}
 
 	public static void addLink(File file, String type, String link) {
@@ -143,7 +158,7 @@ public class XMLUtils {
 			Text linkValue = doc.createTextNode(link);
 			linkNode.appendChild(linkValue); 
 		}
-		
+
 		Node n = nodes.item(0);
 		n.appendChild(linkNode);
 
@@ -153,7 +168,7 @@ public class XMLUtils {
 		// Save
 		saveXMLDocumentAsFile(doc, file);
 	}
-	
+
 	public static void addSocialLink(File file, String socialmedia, String link) throws XPathExpressionException {
 		Document doc = getXMLFileAsDocument(file);
 		Element linkNode = null;
@@ -162,13 +177,13 @@ public class XMLUtils {
 		if (socialmedia.equals("facebook") || socialmedia.equals("twitter") || socialmedia.equals("linkedin")) {
 			// Node exists ?
 			if (doc.getElementsByTagName(socialmedia).getLength() > 0) {
-			    // Locate the node
-			    XPath xpath = XPathFactory.newInstance().newXPath();
-			    NodeList social = (NodeList)xpath.evaluate("//social/" + socialmedia, doc, XPathConstants.NODESET);
-			    // Make the change
-			    for (int i = 0; i < social.getLength(); i++) {
-			      social.item(i).setTextContent(link);
-			    }
+				// Locate the node
+				XPath xpath = XPathFactory.newInstance().newXPath();
+				NodeList social = (NodeList)xpath.evaluate("//social/" + socialmedia, doc, XPathConstants.NODESET);
+				// Make the change
+				for (int i = 0; i < social.getLength(); i++) {
+					social.item(i).setTextContent(link);
+				}
 			} else {
 				// Get parent Node
 				NodeList nodes = doc.getElementsByTagName("social");
@@ -240,7 +255,7 @@ public class XMLUtils {
 			System.out.println("Error while printing the document.");
 		}
 	}
-	
+
 	public static void saveXMLDocumentAsFile(Document doc, File file) {
 		try {
 			// Indent & Doctype declaration
@@ -256,6 +271,17 @@ public class XMLUtils {
 			// Output to file
 			result = new StreamResult(file);
 			transformer.transform(source, result);
+		} catch (Exception e) {
+			System.out.println("Error on saving XML file.");
+		}
+	}
+
+	public static void saveXMLDocument(Document doc, File file) {
+		try {
+			Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			Result output = new StreamResult(file);
+			Source input = new DOMSource(doc);
+			transformer.transform(input, output);
 		} catch (Exception e) {
 			System.out.println("Error on saving XML file.");
 		}

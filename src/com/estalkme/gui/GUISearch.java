@@ -38,9 +38,6 @@ public class GUISearch extends JFrame {
 	private static List<String> googleSearchLinks;
 	private static List<Link> googleSearchResults = new ArrayList<Link>();
 
-	/**
-	 * Create the frame.
-	 */
 	public GUISearch(String title, Dimension size, final String firstName, final String lastName) {
 		addWindowListener(new WindowAdapter() {
 			@Override
