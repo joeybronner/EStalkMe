@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
@@ -91,7 +92,7 @@ public class GUISearch extends JFrame {
 		window.setBorder(new EmptyBorder(5, 5, 5, 5));
 		window.setLayout(new BorderLayout(0, 0));
 		f.setContentPane(window);
-	
+
 		// JFrame Icon
 		f.setIconImage(ImageIO.read(getClass().getResource("img/icon.png")));
 
@@ -109,18 +110,27 @@ public class GUISearch extends JFrame {
 		btnSuivant.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// If some links are found
-				if(googleSearchResults.size() > 0) {
-					// Open GUIResults
-					GUIResults results = new GUIResults("EStalkMe - Results", googleSearchResults);
-					results.setLocationRelativeTo(null); // center
-					results.setVisible(true);
-
-					// Close Start Window
-					setVisible(false); 
-					dispose();
-
-				}
+				final JFrame loading = GUILoading.loadingFrame();
+				Runnable runnable = new Runnable() {
+					public void run() {
+						// If some links are found
+						if(googleSearchResults.size() > 0) {
+							// Open GUIResults
+							GUIResults results = new GUIResults("EStalkMe - Results", googleSearchResults);
+							results.setLocationRelativeTo(null); // center
+							results.setVisible(true);
+							// Close Start Window
+							setVisible(false); 
+							dispose();
+						}
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								loading.setVisible(false);
+							}
+						});
+					}
+				};
+				new Thread(runnable).start();
 			}
 		});
 		btnSuivant.setBackground(SystemColor.controlHighlight);

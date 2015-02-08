@@ -33,6 +33,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.xml.xpath.XPathExpressionException;
 
@@ -326,9 +327,8 @@ public class GUIResults extends JFrame {
 		imgLinkedin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// Open GUISocialLink
 				GUISocialLink results = new GUISocialLink("linkedin");
-				results.setLocationRelativeTo(null); // center
+				results.setLocationRelativeTo(null);
 				results.setVisible(true);
 			}
 		});
@@ -376,12 +376,11 @@ public class GUIResults extends JFrame {
 
 		JPanel header = new JPanel();
 		header.setBackground(Color.WHITE);
-		// TODO : effacer ?header.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
 		window.add(header, BorderLayout.NORTH);
 		GridBagLayout gbl_header = new GridBagLayout();
-		gbl_header.columnWidths = new int[]{0, 0, 0, 0, 0};
+		gbl_header.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_header.rowHeights = new int[]{0, 0};
-		gbl_header.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_header.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_header.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		header.setLayout(gbl_header);
 
@@ -394,23 +393,43 @@ public class GUIResults extends JFrame {
 		gbc_lblLogoApp.gridy = 0;
 		header.add(lblLogoApp, gbc_lblLogoApp);
 
-		JLabel lblLogoloop = new JLabel("");
-		lblLogoloop.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// Open GUIResults
-				GUIResults results = new GUIResults("EStalkMe - Results", googleSearchResults);
-				results.setLocationRelativeTo(null); // center
-				results.setVisible(true);			
-				// Close Start Window
-				setVisible(false); 
-				dispose();
+		JButton btnRefreshui = new JButton("Refresh");
+		btnRefreshui.setBackground(SystemColor.controlHighlight);
+		btnRefreshui.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				final JFrame loading = GUILoading.loadingFrame();
+				Runnable runnable = new Runnable() {
+					public void run() {
+						// Open GUIResults
+						GUIResults results = new GUIResults("EStalkMe - Results", googleSearchResults);
+						results.setLocationRelativeTo(null); // center
+						results.setVisible(true);			
+						// Close Start Window
+						setVisible(false); 
+						dispose();
+						// when loading is finished, make frame disappear
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								loading.setVisible(false);
+							}
+						});
+
+					}
+				};
+				new Thread(runnable).start();
 			}
 		});
-		lblLogoloop.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/loop.png"))));
+		btnRefreshui.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/loop.png"))));
+		GridBagConstraints gbc_btnRefreshui = new GridBagConstraints();
+		gbc_btnRefreshui.insets = new Insets(0, 0, 0, 5);
+		gbc_btnRefreshui.gridx = 1;
+		gbc_btnRefreshui.gridy = 0;
+		header.add(btnRefreshui, gbc_btnRefreshui);
+
+		JLabel lblLogoloop = new JLabel("Nombre de recherches :");
 		GridBagConstraints gbc_lblLogoloop = new GridBagConstraints();
 		gbc_lblLogoloop.insets = new Insets(0, 0, 0, 5);
-		gbc_lblLogoloop.gridx = 1;
+		gbc_lblLogoloop.gridx = 2;
 		gbc_lblLogoloop.gridy = 0;
 		header.add(lblLogoloop, gbc_lblLogoloop);
 
@@ -418,12 +437,11 @@ public class GUIResults extends JFrame {
 		labelLoopNumber.setFont(new Font("Tahoma", Font.PLAIN, 40));
 		GridBagConstraints gbc_label = new GridBagConstraints();
 		gbc_label.insets = new Insets(0, 0, 0, 5);
-		gbc_label.gridx = 2;
+		gbc_label.gridx = 3;
 		gbc_label.gridy = 0;
 		header.add(labelLoopNumber, gbc_label);
 
 		JPanel footer = new JPanel();
-		// TODO : effacer ?footer.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
 		footer.setBackground(Color.WHITE);
 		window.add(footer, BorderLayout.SOUTH);
 		GridBagLayout gbl_footer = new GridBagLayout();
@@ -448,7 +466,6 @@ public class GUIResults extends JFrame {
 		footer.add(lblFileLink, gbc_lblFileLink);
 
 		JPanel right = new JPanel();
-		// TODO : effacer ?right.setBorder(new LineBorder(Color.LIGHT_GRAY, 1, true));
 		right.setBackground(Color.WHITE);
 		window.add(right, BorderLayout.EAST);
 
@@ -475,13 +492,6 @@ public class GUIResults extends JFrame {
 		Layout<String, String> layout = new CircleLayout(sgv.g);
 		vv = new VisualizationViewer<String, String>(layout);
 		vv.setBackground(Color.WHITE);
-
-		/*
-		Transformer<Integer,Paint> vertexPaint = new Transformer<Integer,Paint>() {
-			public Paint transform(Integer i) {
-				return Color.GRAY;
-			}
-		};*/
 
 		float dash[] = {10.0f};
 		final Stroke edgeStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f);

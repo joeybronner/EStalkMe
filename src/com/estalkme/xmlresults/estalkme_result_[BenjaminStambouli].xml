@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<person id="BenjaminStambouli">
+  <about>
+    <gender/>
+    <firstname>Benjamin</firstname>
+    <lastname>Stambouli</lastname>
+    <dateofbirth/>
+  </about>
+  <friends/>
+  <social/>
+  <workexperience/>
+  <links>
+    <reputation>
+      <goods>
+        <good>http://talksport.com/benjamin-stambouli</good>
+      <good>http://www.espnfc.com/player/144280/benjamin-stambouli</good>
+      <good>http://sofifa.com/player/148957-benjamin-stambouli%3Fhl%3Den-GB</good>
+      </goods>
+      <bads>
+        <bad>http://www.whoscored.com/Players/83303</bad>
+      </bads>
+    </reputation>
+    <approvals/>
+    <disapprovals/>
+  </links>
+  <nbofsearches>1</nbofsearches>
+</person>

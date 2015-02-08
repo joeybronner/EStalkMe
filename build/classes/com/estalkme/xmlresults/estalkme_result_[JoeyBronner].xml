@@ -13,7 +13,7 @@
     <reputation>
       <goods>
         
-      <good>http://www.wackyuses.com/faqs.html</good>
+      
       
       
       
@@ -25,19 +25,22 @@
       
       
       <good>http://www.shulmanweightloss.com/newsletter-may2014.htm</good>
-      <good>http://jezebel.com/neutrogena-to-men-dont-use-the-same-soap-on-your-face-1602453612</good>
+      
+      <good>http://eastvillage.thelocal.nytimes.com/2012/10/08/a-tenants-rights-group-that-pities-landlords/</good>
       </goods>
       <bads>
         
       
       
       
-      <bad>http://eastvillage.thelocal.nytimes.com/2012/10/08/a-tenants-rights-group-that-pities-landlords/</bad>
       
+      
+      <bad>http://www.wackyuses.com/faqs.html</bad>
+      <bad>http://jezebel.com/neutrogena-to-men-dont-use-the-same-soap-on-your-face-1602453612</bad>
       </bads>
     </reputation>
     <approvals/>
     <disapprovals/>
   </links>
-  <nbofsearches>20</nbofsearches>
+  <nbofsearches>27</nbofsearches>
 </person>

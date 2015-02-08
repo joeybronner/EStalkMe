@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import com.estalkme.gui.guiutils.dialogTools;
 import com.estalkme.tools.Constants;
@@ -26,10 +27,10 @@ import com.estalkme.xmltools.XMLUtils;
 public class GUIHome {
 
 	public static JFrame createStartWindow(String title) throws Exception {
-		
+
 		// Window creation
 		final JFrame window = new javax.swing.JFrame(title);
-		
+
 		// JFrame Icon
 		window.setIconImage(ImageIO.read(GUIHome.class.getResource("img/user.png")));
 
@@ -54,7 +55,7 @@ public class GUIHome {
 		fieldFirstName.setBorder(Constants.whiteline);
 		fieldFirstName.setAlignmentX(Component.CENTER_ALIGNMENT);
 		body.add(fieldFirstName); 
-		
+
 		// Field Last Name
 		final JTextField fieldLastName = new JTextField("Bronner");
 		fieldLastName.setBackground(SystemColor.controlHighlight);
@@ -78,31 +79,43 @@ public class GUIHome {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String firstName = fieldFirstName.getText().trim();
-					String lastName = fieldLastName.getText().trim();
-					if (ValidateFields.isValidName(firstName, lastName)) {
-						System.out.println(firstName + " " + lastName + " est valide.");	
-						
-						Constants.firstName = firstName;
-						Constants.lastName = lastName;
-						
-						// XML Creation
-						if (XMLUtils.existDocument(firstName, lastName)) {
-							XMLUtils.updateXMLDocument(firstName, lastName);
-						} else {
-							XMLUtils.createNewXMLDocument(firstName, lastName);
+					final JFrame loading = GUILoading.loadingFrame();
+					Runnable runnable = new Runnable() {
+						public void run() {
+							try {
+								String firstName = fieldFirstName.getText().trim();
+								String lastName = fieldLastName.getText().trim();
+								if (ValidateFields.isValidName(firstName, lastName)) {
+									Constants.firstName = firstName;
+									Constants.lastName = lastName;
+									// XML Creation or Update
+									if (XMLUtils.existDocument(firstName, lastName)) {
+										XMLUtils.updateXMLDocument(firstName, lastName);
+									} else {
+										XMLUtils.createNewXMLDocument(firstName, lastName);
+									}
+									GUISearch search = new GUISearch("EStalkMe - Search", Constants.dimFrame, firstName, lastName);
+									search.setLocationRelativeTo(null); // center
+									search.setVisible(true);
+
+									// Close Start Window
+									window.setVisible(false); 
+									window.dispose();
+								} else {
+									dialogTools.showErrorMsg("Error", "Please enter a valid first and last name format (e.g. \"Barack OBAMA\")");
+								}
+								SwingUtilities.invokeLater(new Runnable() {
+									public void run() {
+										loading.setVisible(false);
+									}
+								});
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
-						
-						GUISearch search = new GUISearch("EStalkMe - Search", Constants.dimFrame, firstName, lastName);
-						search.setLocationRelativeTo(null); // center
-						search.setVisible(true);
-						
-						// Close Start Window
-						window.setVisible(false); 
-						window.dispose();
-					} else {
-						dialogTools.showErrorMsg("Error", "Please enter a valid first and last name format (e.g. \"Barack OBAMA\")");
-					}
+					};
+					new Thread(runnable).start();
 				} catch (Exception e1) {
 					// TODO Error
 					e1.printStackTrace();
