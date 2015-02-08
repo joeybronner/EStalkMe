@@ -34,13 +34,6 @@ public class Constants
 	public static Color GRAY = Color.decode("#7f8c8d");
 	public static Color YELLOW = Color.decode("#F7CA18");
 	
-	// Images
-	public static String urlImageConnected = "WebContent/img/ic_www_connection_ok.png";
-	public static String statusConnected = "Server avalaible";
-	public static String urlImageNotConnected = "WebContent/img/ic_www_connection_nok.png";
-	public static String statusNotConnected = "Server error";
-	public static String urlImageAppWelcome = "WebContent/img/im_profile.png";
-	
 	// Google Search API
 	public static String GoogleSearchAdr = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&start=";
 	public static List<Integer> searchSteps = new ArrayList<Integer>();

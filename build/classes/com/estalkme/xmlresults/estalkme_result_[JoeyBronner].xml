@@ -1,29 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <person id="JoeyBronner">
-    <about>
-        <gender/>
-        <firstname>Joey</firstname>
-        <lastname>Bronner</lastname>
-        <dateofbirth/>
-    </about>
-    <friends/>
-    <social/>
-    <workexperience/>
-    <links>
-        <reputation>
-            <goods>
-                <good>http://www.shulmanweightloss.com/newsletter-may2014.htm</good>
-            <good>http://mondoweiss.net/2010/02/let-the-good-times-roll-nyts-kershner-and-bronner-are-listed-as-authors-by-israel-hasbara-committee</good>
-            <good>http://www.draftexpress.com/profile/Joey-Van-Zegeren-42111/stats/</good>
-            <good>http://mondoweiss.net/2010/02/let-the-good-times-roll-nyts-kershner-and-bronner-are-listed-as-authors-by-israel-hasbara-committee</good>
-            <good>http://pointstreak.com/prostats/teamtransactions.html%3Fteamid%3D247882%26seasonid%3D13130</good>
-            <good>http://pigeonsandplanes.com/2014/08/watch-joey-bada-star-in-green-labels-short-film-no-regrets/</good>
-            <good>http://www.newyorker.com/magazine/2014/03/24/terroir</good>
-            </goods>
-            <bads/>
-        </reputation>
-        <approvals/>
-        <disapprovals/>
-    </links>
-    <nbofsearches>7</nbofsearches>
+  <about>
+    <gender/>
+    <firstname>Joey</firstname>
+    <lastname>Bronner</lastname>
+    <dateofbirth/>
+  </about>
+  <friends/>
+  <social/>
+  <workexperience/>
+  <links>
+    <reputation>
+      <goods>
+        
+      <good>http://www.wackyuses.com/faqs.html</good>
+      
+      
+      
+      
+      
+      
+      
+      <good>http://pigeonsandplanes.com/2014/08/joey-bada-announces-international-tour-watch-big-dusty-video-now/</good>
+      
+      
+      <good>http://www.shulmanweightloss.com/newsletter-may2014.htm</good>
+      <good>http://jezebel.com/neutrogena-to-men-dont-use-the-same-soap-on-your-face-1602453612</good>
+      </goods>
+      <bads>
+        
+      
+      
+      
+      <bad>http://eastvillage.thelocal.nytimes.com/2012/10/08/a-tenants-rights-group-that-pities-landlords/</bad>
+      
+      </bads>
+    </reputation>
+    <approvals/>
+    <disapprovals/>
+  </links>
+  <nbofsearches>20</nbofsearches>
 </person>

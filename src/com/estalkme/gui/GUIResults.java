@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -77,13 +78,13 @@ public class GUIResults extends JFrame {
 	static List<Link> googleSearchResults;
 	List<String> cloudWords = new ArrayList<String>();
 	List<String> cloudWordsRestricted = new ArrayList<String>();
+	VisualizationViewer<String, String> vv;
 
 	// Facebook crawler : https://code.google.com/p/facebook-crawler/source/browse/#svn%2Ftrunk%2FFacebook
 
-	@SuppressWarnings("static-access")
 	public GUIResults(String title, List<Link> googleSearchResults) {
 		try {
-			this.googleSearchResults = googleSearchResults;
+			GUIResults.googleSearchResults = googleSearchResults;
 			addAditionalInfosByLink();
 			mergeWithGoodAndBadLinks();
 			loadCloudWords();
@@ -116,12 +117,12 @@ public class GUIResults extends JFrame {
 				}
 			}
 		}
-
-		for (int i=0 ; i<10 ; i++) {
-			Random random = new Random();
-			int randomNumber = random.nextInt(cloudWords.size());
-			//System.out.println(cloudWords.get(randomNumber));
-			cloudWordsRestricted.add(cloudWords.get(randomNumber).toString());
+		if (cloudWords.size()>0) {
+			for (int i=0 ; i<10 ; i++) {
+				Random random = new Random();
+				int randomNumber = random.nextInt(cloudWords.size());
+				cloudWordsRestricted.add(cloudWords.get(randomNumber).toString());
+			}
 		}
 	}
 
@@ -172,7 +173,7 @@ public class GUIResults extends JFrame {
 		lblCloudword_7.setText(cloudWordsRestricted.get(7).toString());
 		lblCloudword_8.setText(cloudWordsRestricted.get(8).toString());
 		lblCloudword_9.setText(cloudWordsRestricted.get(9).toString());
-		
+
 		// Update number of searches
 		labelLoopNumber.setText(Constants.nbOfSearches);
 	}
@@ -180,7 +181,7 @@ public class GUIResults extends JFrame {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void init(final JFrame f) throws Exception {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		f.setExtendedState(Frame.MAXIMIZED_BOTH); 
 
 		// JFrame Icon
 		f.setIconImage(ImageIO.read(new File(Constants.ICON)));
@@ -190,6 +191,7 @@ public class GUIResults extends JFrame {
 		JMenu fichier = new JMenu("Fichier");
 		JMenuItem newSearch = new JMenuItem("Nouvelle recherche");
 		newSearch.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					GUIHome.createStartWindow("EStalkMe - Start");
@@ -203,6 +205,7 @@ public class GUIResults extends JFrame {
 		fichier.add(newSearch);
 		JMenuItem quit = new JMenuItem("Quitter...");
 		quit.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				int confirm = JOptionPane.showOptionDialog(window,
 						"Voulez-vous quitter l'application ?",
@@ -332,42 +335,42 @@ public class GUIResults extends JFrame {
 		imgLinkedin.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/linkedin.png"))));
 		left.add(imgLinkedin, "2, 16, center, default");
 
-		lblCloudword = new JLabel("CloudWord1");
+		lblCloudword = new JLabel("");
 		lblCloudword.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		left.add(lblCloudword, "2, 20, right, default");
 
-		lblCloudword_1 = new JLabel("CloudWord2");
+		lblCloudword_1 = new JLabel("");
 		lblCloudword_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		left.add(lblCloudword_1, "2, 22, center, default");
 
-		lblCloudword_2 = new JLabel("CloudWord3");
+		lblCloudword_2 = new JLabel("");
 		lblCloudword_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		left.add(lblCloudword_2, "2, 24");
 
-		lblCloudword_3 = new JLabel("CloudWord4");
+		lblCloudword_3 = new JLabel("");
 		lblCloudword_3.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		left.add(lblCloudword_3, "2, 26, center, default");
 
-		lblCloudword_4 = new JLabel("CloudWord5");
+		lblCloudword_4 = new JLabel("");
 		lblCloudword_4.setFont(new Font("Tahoma", Font.BOLD, 11));
 		left.add(lblCloudword_4, "2, 28, right, default");
 
-		lblCloudword_5 = new JLabel("CloudWord6");
+		lblCloudword_5 = new JLabel("");
 		lblCloudword_5.setFont(new Font("Tahoma", Font.ITALIC, 17));
 		left.add(lblCloudword_5, "2, 30, center, default");
 
-		lblCloudword_6 = new JLabel("CloudWord7");
+		lblCloudword_6 = new JLabel("");
 		lblCloudword_6.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
 		left.add(lblCloudword_6, "2, 32");
 
-		lblCloudword_7 = new JLabel("CloudWord8");
+		lblCloudword_7 = new JLabel("");
 		left.add(lblCloudword_7, "2, 34");
 
-		lblCloudword_8 = new JLabel("CloudWord9");
+		lblCloudword_8 = new JLabel("");
 		lblCloudword_8.setFont(new Font("Tahoma", Font.ITALIC, 14));
 		left.add(lblCloudword_8, "2, 36, right, default");
 
-		lblCloudword_9 = new JLabel("CloudWord10");
+		lblCloudword_9 = new JLabel("");
 		lblCloudword_9.setFont(new Font("Tahoma", Font.BOLD, 16));
 		left.add(lblCloudword_9, "2, 38");
 
@@ -390,15 +393,27 @@ public class GUIResults extends JFrame {
 		gbc_lblLogoApp.gridx = 0;
 		gbc_lblLogoApp.gridy = 0;
 		header.add(lblLogoApp, gbc_lblLogoApp);
-		
+
 		JLabel lblLogoloop = new JLabel("");
+		lblLogoloop.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// Open GUIResults
+				GUIResults results = new GUIResults("EStalkMe - Results", googleSearchResults);
+				results.setLocationRelativeTo(null); // center
+				results.setVisible(true);			
+				// Close Start Window
+				setVisible(false); 
+				dispose();
+			}
+		});
 		lblLogoloop.setIcon(new ImageIcon(ImageIO.read(getClass().getResource("img/loop.png"))));
 		GridBagConstraints gbc_lblLogoloop = new GridBagConstraints();
 		gbc_lblLogoloop.insets = new Insets(0, 0, 0, 5);
 		gbc_lblLogoloop.gridx = 1;
 		gbc_lblLogoloop.gridy = 0;
 		header.add(lblLogoloop, gbc_lblLogoloop);
-		
+
 		labelLoopNumber = new JLabel("-");
 		labelLoopNumber.setFont(new Font("Tahoma", Font.PLAIN, 40));
 		GridBagConstraints gbc_label = new GridBagConstraints();
@@ -458,7 +473,7 @@ public class GUIResults extends JFrame {
 		// -------------------------------------------------------------------------
 		GraphNode sgv = new GraphNode(googleSearchMinimalTitles);
 		Layout<String, String> layout = new CircleLayout(sgv.g);
-		VisualizationViewer<String, String> vv = new VisualizationViewer<String, String>(layout);
+		vv = new VisualizationViewer<String, String>(layout);
 		vv.setBackground(Color.WHITE);
 
 		/*
@@ -472,6 +487,7 @@ public class GUIResults extends JFrame {
 		final Stroke edgeStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f);
 
 		Transformer<String, Stroke> edgeStrokeTransformer = new Transformer<String, Stroke>() {
+			@Override
 			public Stroke transform(String s) {
 				return edgeStroke;
 			}

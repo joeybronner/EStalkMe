@@ -43,6 +43,7 @@ public class XMLUtils {
 		try {
 
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			docFactory.setIgnoringElementContentWhitespace(true);
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 			doc = docBuilder.newDocument();
 
@@ -135,6 +136,43 @@ public class XMLUtils {
 		doc = XMLManageValues.setNumberOfSearches(doc, Constants.nbOfSearches);
 		printDocument(doc, System.out);
 		saveXMLDocumentAsFile(doc, getXMLFile(Constants.firstName, Constants.lastName));
+	}
+
+	public static void removeLink(File file, String link) {
+		Document doc = getXMLFileAsDocument(file);
+		NodeList c;
+		// Remove from goods
+		c = doc.getElementsByTagName("goods");
+		for (int i = 0; i < c.getLength(); i++) {
+			if (c.item(i) instanceof Element) {
+				NodeList children = c.item(i).getChildNodes();
+				for (int j = 0; j < children.getLength(); j++) {
+					if (children.item(j) instanceof Element) {
+						Element good = (Element) children.item(j);
+						if (good.getTextContent().equals(link)) {
+							good.getParentNode().removeChild(good);
+						}
+					}
+				}
+			}
+		}
+		// Remove from bads
+		c = doc.getElementsByTagName("bads");
+		for (int i = 0; i < c.getLength(); i++) {
+			if (c.item(i) instanceof Element) {
+				NodeList children = c.item(i).getChildNodes();
+				for (int j = 0; j < children.getLength(); j++) {
+					if (children.item(j) instanceof Element) {
+						Element bad = (Element) children.item(j);
+						if (bad.getTextContent().equals(link)) {
+							bad.getParentNode().removeChild(bad);
+						}
+					}
+				}
+			}
+		}
+		//printDocument(doc, System.out);
+		saveXMLDocumentAsFile(doc, file);
 	}
 
 	public static void addLink(File file, String type, String link) {
@@ -261,7 +299,7 @@ public class XMLUtils {
 			// Indent & Doctype declaration
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
 			// Prepares to write
@@ -273,6 +311,7 @@ public class XMLUtils {
 			transformer.transform(source, result);
 		} catch (Exception e) {
 			System.out.println("Error on saving XML file.");
+			e.printStackTrace();
 		}
 	}
 

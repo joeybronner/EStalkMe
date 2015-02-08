@@ -8,7 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,9 +91,9 @@ public class GUISearch extends JFrame {
 		window.setBorder(new EmptyBorder(5, 5, 5, 5));
 		window.setLayout(new BorderLayout(0, 0));
 		f.setContentPane(window);
-
+	
 		// JFrame Icon
-		f.setIconImage(ImageIO.read(new File(Constants.ICON)));		
+		f.setIconImage(ImageIO.read(getClass().getResource("img/icon.png")));
 
 		JPanel panelBody = new JPanel();
 		panelBody.setBackground(SystemColor.window);
@@ -139,6 +138,7 @@ public class GUISearch extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				String link = (String) list.getSelectedValue();
 				if (link != null && !link.equals("")) {
+					XMLUtils.removeLink(XMLUtils.getXMLFile(Constants.firstName, Constants.lastName), link);
 					XMLUtils.addLink(XMLUtils.getXMLFile(Constants.firstName, Constants.lastName), "bad", link);
 				} else {
 					System.out.println("You must select a link if the list.");
@@ -153,6 +153,7 @@ public class GUISearch extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				String link = (String) list.getSelectedValue();
 				if (link != null && !link.equals("")) {
+					XMLUtils.removeLink(XMLUtils.getXMLFile(Constants.firstName, Constants.lastName), link);
 					XMLUtils.addLink(XMLUtils.getXMLFile(Constants.firstName, Constants.lastName), "good", link);
 				} else {
 					System.out.println("You must select a link if the list.");

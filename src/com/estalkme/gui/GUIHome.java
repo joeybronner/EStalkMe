@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -32,13 +31,13 @@ public class GUIHome {
 		final JFrame window = new javax.swing.JFrame(title);
 		
 		// JFrame Icon
-		window.setIconImage(ImageIO.read(new File(Constants.ICON)));
+		window.setIconImage(ImageIO.read(GUIHome.class.getResource("img/user.png")));
 
 		// Body
 		JPanel body = new JPanel();
 
 		// App welcome picture
-		JLabel img = new JLabel(new ImageIcon(Constants.urlImageAppWelcome), SwingConstants.LEFT);
+		JLabel img = new JLabel(new ImageIcon(ImageIO.read(GUIHome.class.getResource("img/icon.png"))), SwingConstants.LEFT);
 		img.setAlignmentX(Component.CENTER_ALIGNMENT);
 		body.add(img);
 		body.setBackground(Color.WHITE);
