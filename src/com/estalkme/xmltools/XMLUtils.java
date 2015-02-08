@@ -12,8 +12,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -30,7 +28,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import com.estalkme.tools.Constants;
 
@@ -207,6 +208,23 @@ public class XMLUtils {
 		saveXMLDocumentAsFile(doc, file);
 	}
 
+	public static String getSocialLink(File file, String socialmedia) throws XPathExpressionException {
+		Document doc = getXMLFileAsDocument(file);
+
+		// Add new bad or good link
+		if (socialmedia.equals("facebook") || socialmedia.equals("twitter") || socialmedia.equals("linkedin")) {
+			// Node exists ?
+			if (doc.getElementsByTagName(socialmedia).getLength() > 0) {
+				// Locate the node
+				XPath xpath = XPathFactory.newInstance().newXPath();
+				NodeList social = (NodeList)xpath.evaluate("//social/" + socialmedia, doc, XPathConstants.NODESET);
+				// Retrieve link
+				return social.item(0).getTextContent();
+			}
+		}
+		return "";
+	}
+
 	public static void addSocialLink(File file, String socialmedia, String link) throws XPathExpressionException {
 		Document doc = getXMLFileAsDocument(file);
 		Element linkNode = null;
@@ -253,6 +271,10 @@ public class XMLUtils {
 	public static File getXMLFile(String firstName, String lastName) {
 		return new File(Constants.SAVE_PATH + buildFileName(firstName, lastName));
 	}
+	
+	public static File getLastProcessXMLFile() {
+		return new File(Constants.SAVE_PATH + "estalkme_lastprocess.xml");
+	}
 
 	public static String buildFileName(String firstName, String lastName) {
 		return "estalkme_result_[" + firstName + lastName + "].xml";
@@ -287,7 +309,7 @@ public class XMLUtils {
 			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 			transformer.transform(new DOMSource(doc), new StreamResult(new OutputStreamWriter(out, "UTF-8")));
 		} catch (Exception e) {
 			System.out.println("Error while printing the document.");
@@ -314,15 +336,35 @@ public class XMLUtils {
 			e.printStackTrace();
 		}
 	}
+	
+	public static boolean validateWithDTDUsingDOM(String xml) throws ParserConfigurationException, IOException, SAXException {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			factory.setValidating(true);
+			factory.setNamespaceAware(true);
 
-	public static void saveXMLDocument(Document doc, File file) {
-		try {
-			Transformer transformer = TransformerFactory.newInstance().newTransformer();
-			Result output = new StreamResult(file);
-			Source input = new DOMSource(doc);
-			transformer.transform(input, output);
-		} catch (Exception e) {
-			System.out.println("Error on saving XML file.");
-		}
+			DocumentBuilder builder = factory.newDocumentBuilder();
+
+			builder.setErrorHandler(
+					new ErrorHandler() {
+						@Override
+						public void warning(SAXParseException e) throws SAXException {
+							System.out.println("WARNING : " + e.getMessage()); // do nothing
+						}
+
+						@Override
+						public void error(SAXParseException e) throws SAXException {
+							System.out.println("ERROR : " + e.getMessage());
+							throw e;
+						}
+
+						@Override
+						public void fatalError(SAXParseException e) throws SAXException {
+							System.out.println("FATAL : " + e.getMessage());
+							throw e;
+						}
+					}
+					);
+			builder.parse(new InputSource(xml));
+			return true;
 	}
 }

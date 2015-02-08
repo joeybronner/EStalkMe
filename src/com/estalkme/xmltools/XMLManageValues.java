@@ -66,6 +66,16 @@ public class XMLManageValues {
 		Element rootElement = doc.getDocumentElement();
 		return getString("lastname", rootElement);
 	}
+	
+	public static String getLastProcessFirstName(Document doc) throws XPathExpressionException {
+		Element rootElement = doc.getDocumentElement();
+		return getString("firstname", rootElement);
+	}
+	
+	public static String getLastProcessLastName(Document doc) throws XPathExpressionException {
+		Element rootElement = doc.getDocumentElement();
+		return getString("lastname", rootElement);
+	}
 
 	public static List<String> getAllGoodLinks(Document doc) {
 		return getListOfNodeContent(doc, "goods");
@@ -79,6 +89,15 @@ public class XMLManageValues {
 		Element rootElement = doc.getDocumentElement();
 		Node n = getNode("nbofsearches", rootElement);
 		n.setTextContent(newNumber);
+		return doc;
+	}
+	
+	public static Document setLastProcessFirstAndLastNames(Document doc, String firstName, String lastName) throws XPathExpressionException, TransformerFactoryConfigurationError, TransformerException {
+		Element rootElement = doc.getDocumentElement();
+		Node nFirst = getNode("firstname", rootElement);
+		nFirst.setTextContent(firstName);
+		Node nLast = getNode("lastname", rootElement);
+		nLast.setTextContent(lastName);
 		return doc;
 	}
 

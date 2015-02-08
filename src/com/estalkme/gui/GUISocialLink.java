@@ -35,7 +35,7 @@ public class GUISocialLink extends JFrame {
 		}
 	}
 
-	private void init(JFrame f, final String type) throws IOException {
+	private void init(JFrame f, final String type) throws IOException, XPathExpressionException {
 		f.setBounds(100, 100, 450, 90);
 		f.setTitle("EStalkMe - Ajouter/Modifier un lien social");
 		
@@ -61,7 +61,11 @@ public class GUISocialLink extends JFrame {
 		textField = new JTextField();
 		getContentPane().add(textField, "4, 2, fill, default");
 		textField.setColumns(10);
-
+		
+		// Load value if exists in XML
+		String actualLink = XMLUtils.getSocialLink(XMLUtils.getXMLFile(Constants.firstName, Constants.lastName), type);
+		textField.setText(actualLink);
+		
 		JButton btnValider = new JButton("Valider");
 		btnValider.addMouseListener(new MouseAdapter() {
 			@Override

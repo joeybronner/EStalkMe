@@ -3,6 +3,7 @@ package com.estalkme.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -18,10 +19,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import org.w3c.dom.Document;
+
 import com.estalkme.gui.guiutils.dialogTools;
 import com.estalkme.tools.Constants;
 import com.estalkme.tools.TextPrompt;
 import com.estalkme.tools.ValidateFields;
+import com.estalkme.tools.Values;
+import com.estalkme.xmltools.XMLManageValues;
 import com.estalkme.xmltools.XMLUtils;
 
 public class GUIHome {
@@ -32,19 +37,19 @@ public class GUIHome {
 		final JFrame window = new javax.swing.JFrame(title);
 
 		// JFrame Icon
-		window.setIconImage(ImageIO.read(GUIHome.class.getResource("img/user.png")));
+		window.setIconImage(ImageIO.read(GUIHome.class.getResource(Values.IMG_USER)));
 
 		// Body
 		JPanel body = new JPanel();
 
 		// App welcome picture
-		JLabel img = new JLabel(new ImageIcon(ImageIO.read(GUIHome.class.getResource("img/icon.png"))), SwingConstants.LEFT);
+		JLabel img = new JLabel(new ImageIcon(ImageIO.read(GUIHome.class.getResource(Values.IMG_ICON))), SwingConstants.LEFT);
 		img.setAlignmentX(Component.CENTER_ALIGNMENT);
 		body.add(img);
 		body.setBackground(Color.WHITE);
 
 		// Field First Name
-		final JTextField fieldFirstName = new JTextField("Joey");
+		final JTextField fieldFirstName = new JTextField("");
 		fieldFirstName.setBackground(SystemColor.controlHighlight);
 		TextPrompt tpTFFirstName;
 		tpTFFirstName = new TextPrompt("Barack", fieldFirstName);
@@ -57,7 +62,7 @@ public class GUIHome {
 		body.add(fieldFirstName); 
 
 		// Field Last Name
-		final JTextField fieldLastName = new JTextField("Bronner");
+		final JTextField fieldLastName = new JTextField("");
 		fieldLastName.setBackground(SystemColor.controlHighlight);
 		TextPrompt tpTFLastName;
 		tpTFLastName = new TextPrompt("OBAMA", fieldLastName);
@@ -70,7 +75,7 @@ public class GUIHome {
 		body.add(fieldLastName);
 
 		// Button
-		JButton stalkIt = new JButton("Stalk it!");
+		JButton stalkIt = new JButton(Values.BT_STALK);
 		stalkIt.setPreferredSize(Constants.dimButtonLittle);
 		stalkIt.setBackground(Constants.white);
 		stalkIt.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -94,15 +99,20 @@ public class GUIHome {
 									} else {
 										XMLUtils.createNewXMLDocument(firstName, lastName);
 									}
-									GUISearch search = new GUISearch("EStalkMe - Search", Constants.dimFrame, firstName, lastName);
-									search.setLocationRelativeTo(null); // center
+									// Write in estalkme_lastprocess.xml
+									Document doc = XMLUtils.getXMLFileAsDocument(XMLUtils.getLastProcessXMLFile());
+									doc = XMLManageValues.setLastProcessFirstAndLastNames(doc, firstName, lastName);
+									XMLUtils.saveXMLDocumentAsFile(doc, XMLUtils.getLastProcessXMLFile());
+
+									GUISearch search = new GUISearch(Values.SEARCH_TITLE, Constants.dimFrame, firstName, lastName);
+									search.setLocationRelativeTo(null);
 									search.setVisible(true);
 
 									// Close Start Window
 									window.setVisible(false); 
 									window.dispose();
 								} else {
-									dialogTools.showErrorMsg("Error", "Please enter a valid first and last name format (e.g. \"Barack OBAMA\")");
+									dialogTools.showErrorMsg(Values.TITLE_ERREUR, Values.MSG_ERREUR_VAL);
 								}
 								SwingUtilities.invokeLater(new Runnable() {
 									public void run() {
@@ -123,6 +133,50 @@ public class GUIHome {
 			}
 		});
 		body.add(stalkIt); 
+
+		// Button load last 
+		JButton reloadLast = new JButton("");
+		reloadLast.setIcon(new ImageIcon(ImageIO.read(GUIHome.class.getResource("img/reload.png"))));
+		reloadLast.setPreferredSize(new Dimension(32, 32));
+		reloadLast.setBackground(Constants.white);
+		reloadLast.setAlignmentX(Component.CENTER_ALIGNMENT);
+		reloadLast.setBorder(Constants.whiteline);
+		reloadLast.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				final JFrame loading = GUILoading.loadingFrame();
+				Runnable runnable = new Runnable() {
+					public void run() {
+						// Write in estalkme_lastprocess.xml
+						try {
+							Document doc = XMLUtils.getXMLFileAsDocument(XMLUtils.getLastProcessXMLFile());
+							String f = XMLManageValues.getLastProcessFirstName(doc);
+							String l = XMLManageValues.getLastProcessLastName(doc);
+							
+							Constants.firstName = f;
+							Constants.lastName = l;
+
+							GUISearch search = new GUISearch(Values.SEARCH_TITLE, Constants.dimFrame, f, l);
+							search.setLocationRelativeTo(null);
+							search.setVisible(true);
+
+							// Close Start Window
+							window.setVisible(false); 
+							window.dispose();
+						} catch (Exception eReload) {
+							eReload.printStackTrace();
+						}
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								loading.setVisible(false);
+							}
+						});
+					}
+				};
+				new Thread(runnable).start();
+			}
+		});
+		body.add(reloadLast);
 
 		window.getContentPane().add(body, BorderLayout.CENTER);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
