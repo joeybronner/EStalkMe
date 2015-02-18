@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<person id="MathieuBoyer">
+  <about>
+    <gender/>
+    <firstname>Mathieu</firstname>
+    <lastname>Boyer</lastname>
+    <dateofbirth/>
+  </about>
+  <friends/>
+  <social/>
+  <workexperience/>
+  <links>
+    <reputation>
+      <goods>
+        <good>http://kickoff.blogs.lequipe.fr/mathieu-boyer-je-suis-passe-de-lol-a-pret-a-manger/</good>
+      <good>http://www.bourassaboyer.com/en/accueil.html</good>
+      <good>http://www.dailymotion.com/olmix</good>
+      <good>http://wearethelittlesister.com/</good>
+      <good>http://www.basket-svbd.com/category/equipes/masculines/</good>
+      </goods>
+      <bads/>
+    </reputation>
+    <approvals/>
+    <disapprovals/>
+  </links>
+  <nbofsearches>1</nbofsearches>
+</person>

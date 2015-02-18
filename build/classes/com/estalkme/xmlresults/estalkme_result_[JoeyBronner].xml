@@ -11,11 +11,23 @@
   <workexperience/>
   <links>
     <reputation>
-      <goods/>
-      <bads/>
+      <goods>
+        <good>http://pigeonsandplanes.com/2013/07/joey-badass-summer-knights/</good>
+      
+      <good>http://mondoweiss.net/2010/02/let-the-good-times-roll-nyts-kershner-and-bronner-are-listed-as-authors-by-israel-hasbara-committee</good>
+      <good>http://www.wackyuses.com/faqs.html</good>
+      <good>http://jezebel.com/neutrogena-to-men-dont-use-the-same-soap-on-your-face-1602453612</good>
+      <good>http://www.youtube.com/watch%3Fv%3DbG75AinnYyk</good>
+      <good>http://www.welt-der-rosen.de/duftrosen/rosen_jo.htm</good>
+      <good>http://vimeo.com/28012473</good>
+      </goods>
+      <bads>
+        <bad>http://www.newyorker.com/magazine/2014/03/24/terroir</bad>
+      <bad>http://www.shulmanweightloss.com/newsletter-may2014.htm</bad>
+      </bads>
     </reputation>
     <approvals/>
     <disapprovals/>
   </links>
-  <nbofsearches>2</nbofsearches>
+  <nbofsearches>4</nbofsearches>
 </person>

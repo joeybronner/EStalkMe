@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<person id="AntoninCornut">
+  <about>
+    <gender/>
+    <firstname>Antonin</firstname>
+    <lastname>Cornut</lastname>
+    <dateofbirth/>
+  </about>
+  <friends/>
+  <social/>
+  <workexperience/>
+  <links>
+    <reputation>
+      <goods>
+        
+      <good>http://www.gaultmillau.fr/vin/tous</good>
+      </goods>
+      <bads>
+        <bad>http://fr.wikipedia.org/wiki/Philippe_Huttenlocher</bad>
+      <bad>http://www.calameo.com/books/00110447770dbd2b20e6e</bad>
+      </bads>
+    </reputation>
+    <approvals/>
+    <disapprovals/>
+  </links>
+  <nbofsearches>1</nbofsearches>
+</person>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<person id="AudreyFleurot">
+  <about>
+    <gender/>
+    <firstname>Audrey</firstname>
+    <lastname>Fleurot</lastname>
+    <dateofbirth/>
+  </about>
+  <friends/>
+  <social>
+    <facebook>testfacebook</facebook>
+  </social>
+  <workexperience/>
+  <links>
+    <reputation>
+      <goods>
+        <good>http://television.telerama.fr/television/audrey-fleurot-la-femme-fatale-d-a-cote,119413.php</good>
+      <good>https://fr-fr.facebook.com/AudreyFleurotOfficiel</good>
+      <good>http://www.grazia.fr/culture/persona-grazia/articles/onze-choses-que-vous-ne-saviez-peut-etre-pas-sur-audrey-fleurot-709264</good>
+      <good>http://www.canalplus.fr/c-divertissement/c-le-petit-journal/pid6515-le-replay.html%3Fvid%3D1164278</good>
+      <good>http://www.commeaucinema.com/personne/audrey-fleurot,60418</good>
+      <good>http://www.allocine.fr/personne/fichepersonne_gen_cpersonne%3D128597.html</good>
+      </goods>
+      <bads>
+        <bad>http://variety.com/2014/tv/news/mipcom-cecile-de-france-nathalie-baye-and-audrey-fleurot-join-cast-of-call-my-agent-exclusive-1201329354/</bad>
+      <bad>http://www.theguardian.com/tv-and-radio/tvandradioblog/2015/feb/04/have-you-been-watching-spiral-series-five-is-this-the-best-season-yet</bad>
+      </bads>
+    </reputation>
+    <approvals/>
+    <disapprovals/>
+  </links>
+  <nbofsearches>1</nbofsearches>
+</person>

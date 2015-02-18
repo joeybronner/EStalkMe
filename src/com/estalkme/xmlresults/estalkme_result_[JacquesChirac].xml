@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<person id="JacquesChirac">
+  <about>
+    <gender/>
+    <firstname>Jacques</firstname>
+    <lastname>Chirac</lastname>
+    <dateofbirth/>
+  </about>
+  <friends/>
+  <social/>
+  <workexperience/>
+  <links>
+    <reputation>
+      <goods>
+        <good>http://www.nytimes.com/2011/12/16/world/europe/chirac-found-guilty-in-political-funding-case.html</good>
+      <good>http://www.imdb.com/name/nm0158105/</good>
+      <good>http://fuckyeahjacqueschirac.tumblr.com/</good>
+      <good>http://www.theguardian.com/world/jacques-chirac</good>
+      </goods>
+      <bads>
+        <bad>http://abcnews.go.com/topics/news/world/jacques-chirac.htm</bad>
+      <bad>http://www.thefamouspeople.com/profiles/jacques-chirac-112.php</bad>
+      </bads>
+    </reputation>
+    <approvals/>
+    <disapprovals/>
+  </links>
+  <nbofsearches>2</nbofsearches>
+</person>

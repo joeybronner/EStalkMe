@@ -62,7 +62,6 @@ public class GoogleResults {
 			for (int j=0; j<4; j++){
 				try {
 					result.add(results.getResponseData().getResults().get(j).getUrl());
-					// results.getResponseData().getResults().get(i).getTitle();
 				} catch (Exception e) {
 					continue;
 				}

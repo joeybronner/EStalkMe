@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<person id="AmineBou">
+  <about>
+    <gender/>
+    <firstname>Amine</firstname>
+    <lastname>Bou</lastname>
+    <dateofbirth/>
+  </about>
+  <friends/>
+  <social>
+    <facebook>test</facebook>
+  <twitter>twitter</twitter>
+  </social>
+  <workexperience/>
+  <links>
+    <reputation>
+      <goods>
+        <good>https://github.com/aminecmi</good>
+      <good>http://en.wikipedia.org/wiki/Steamboy</good>
+      <good>http://www.aley.com/villages/municipality_members_and_mukhtar.htm</good>
+      <good>http://fr.viadeo.com/fr/profile/amine.bou-ezzeddine</good>
+      
+      <good>http://www.name-list.net/facebook/firstname/Amine</good>
+      <good>http://www.researchgate.net/profile/Mohamed_Ghebouli</good>
+      </goods>
+      <bads/>
+    </reputation>
+    <approvals/>
+    <disapprovals/>
+  </links>
+  <nbofsearches>2</nbofsearches>
+</person>

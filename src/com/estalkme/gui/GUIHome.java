@@ -120,14 +120,12 @@ public class GUIHome {
 									}
 								});
 							} catch (Exception e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}
 					};
 					new Thread(runnable).start();
 				} catch (Exception e1) {
-					// TODO Error
 					e1.printStackTrace();
 				}
 			}
